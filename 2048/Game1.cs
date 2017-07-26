@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,8 +13,10 @@ namespace _2048
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-
-
+        
+        EmptyMatricies field;
+        float _widthScreen;
+        float _heightScreen;
 
 
         public Game1()
@@ -23,6 +26,7 @@ namespace _2048
 
             this.IsFixedTimeStep = false;
             this.graphics.SynchronizeWithVerticalRetrace = false;
+
 
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferWidth = 800;
@@ -39,7 +43,10 @@ namespace _2048
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            _widthScreen = GraphicsDevice.Viewport.Width;
+            _heightScreen = GraphicsDevice.Viewport.Height;
 
+            field = new EmptyMatricies(GraphicsDevice, _widthScreen, _heightScreen);
 
             base.Initialize();
         }
@@ -77,7 +84,7 @@ namespace _2048
                 Exit();
 
             // TODO: Add your update logic here
-
+            field.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -90,7 +97,9 @@ namespace _2048
         {
             GraphicsDevice.Clear(Color.AntiqueWhite);
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            field.Draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
