@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,11 +14,16 @@ namespace _2048
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        
-        EmptyMatricies field;
-        float _widthScreen;
-        float _heightScreen;
+        CoordinatesConversion conversion;
 
+        List<Cell> _cells;
+        EmptyMatricies _field;
+        int _widthScreen;
+        int _heightScreen;
+
+        double counter = 0;
+
+        PossibleTextures _textures;
 
         public Game1()
         {
@@ -46,7 +52,13 @@ namespace _2048
             _widthScreen = GraphicsDevice.Viewport.Width;
             _heightScreen = GraphicsDevice.Viewport.Height;
 
-            field = new EmptyMatricies(GraphicsDevice, _widthScreen, _heightScreen);
+            _textures = new PossibleTextures(Content);
+
+            conversion = new CoordinatesConversion(_widthScreen, _heightScreen);
+
+            _field = new EmptyMatricies(GraphicsDevice, _widthScreen, _heightScreen, conversion.CellSize);
+
+            _cells = new List<Cell>();
 
             base.Initialize();
         }
@@ -83,8 +95,17 @@ namespace _2048
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
+            counter++;
             // TODO: Add your update logic here
-            field.Update(gameTime);
+            if (counter % 100 == 0)
+            {
+                var rand = new Random((int)gameTime.ElapsedGameTime.Ticks);
+
+                var coords = conversion.ToPixelCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, 3));
+
+                var cell = new Cell(_textures, (int) Math.Pow(2, rand.Next(1, 14)), coords);
+                _cells.Add(cell);
+            }
 
             base.Update(gameTime);
         }
@@ -98,7 +119,14 @@ namespace _2048
             GraphicsDevice.Clear(Color.AntiqueWhite);
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            field.Draw(spriteBatch);
+
+            _field.Draw(spriteBatch);
+
+            foreach (var cell in _cells)
+            {
+                cell.Draw(spriteBatch);
+            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);

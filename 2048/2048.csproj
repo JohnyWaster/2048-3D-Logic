@@ -60,8 +60,11 @@
   <ItemGroup>
     <Compile Include="Activity1.cs" />
     <Compile Include="Cell.cs" />
+    <Compile Include="CoordinatesConversion.cs" />
     <Compile Include="EmptyMatricies.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="PixelCoordinates.cs" />
+    <Compile Include="PossibleTextures.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -89,9 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\teddybear.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

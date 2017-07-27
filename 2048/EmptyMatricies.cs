@@ -22,10 +22,12 @@ namespace _2048
         Vector2 _positionOfLeftMatrix;
         Vector2 _positionOfRightMatrix;
 
-        int _cellSize = 80;
+        int _cellSize;
         
-        public EmptyMatricies(GraphicsDevice graphicsDevice, float width, float height)
+        public EmptyMatricies(GraphicsDevice graphicsDevice, int width, int height, int cellSize)
         {
+            _cellSize = cellSize;
+
             InitTextureOfMatrix(graphicsDevice);
 
             InitMatrixPositions(width, height);
@@ -61,7 +63,7 @@ namespace _2048
         {
             int numberOfPixelsInMatrix = 3 * 3 * _cellSize * _cellSize;
 
-            _emptyMatrix = new Texture2D(graphicsDevice, 240, 240);
+            _emptyMatrix = new Texture2D(graphicsDevice, 3 * _cellSize, 3 * _cellSize);
             Color[] colorData = new Color[numberOfPixelsInMatrix];
             for (int i = 0; i < numberOfPixelsInMatrix; i++)
                 colorData[i] = Color.Coral;
