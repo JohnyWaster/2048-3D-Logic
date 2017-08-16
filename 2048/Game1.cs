@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
+using Android.App;
+using Android.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace _2048
 {
@@ -14,12 +18,13 @@ namespace _2048
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        CoordinatesConversion conversion;
+        CoordinatesConversion _conversion;
 
         List<Cell> _cells;
         EmptyMatricies _field;
         int _widthScreen;
         int _heightScreen;
+
 
         double counter = 0;
 
@@ -54,9 +59,9 @@ namespace _2048
 
             _textures = new PossibleTextures(Content);
 
-            conversion = new CoordinatesConversion(_widthScreen, _heightScreen);
+            _conversion = new CoordinatesConversion(_widthScreen, _heightScreen);
 
-            _field = new EmptyMatricies(GraphicsDevice, _widthScreen, _heightScreen, conversion.CellSize);
+            _field = new EmptyMatricies(GraphicsDevice, _widthScreen, _heightScreen, _conversion.CellSize);
 
             _cells = new List<Cell>();
 
@@ -95,21 +100,33 @@ namespace _2048
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
+            var userAction = UserActions.InputHandler.GetUserAction();
+
+            if (userAction == null)
+            {
+                return;
+            }
+
+            userAction.Act(new int[3, 3, 3]);
+            
+
+
             counter++;
             // TODO: Add your update logic here
             if (counter % 100 == 0)
             {
                 var rand = new Random((int)gameTime.ElapsedGameTime.Ticks);
 
-                var coords = conversion.ToPixelCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, 3));
+                var coords = _conversion.ToPixelCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, 3));
 
-                var cell = new Cell(_textures, (int) Math.Pow(2, rand.Next(1, 14)), coords);
+                var cell = new Cell(_textures, (int) Math.Pow(2, rand.Next(1, 14)), coords, _conversion.CellSize);
                 _cells.Add(cell);
             }
 
             base.Update(gameTime);
         }
 
+        
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>

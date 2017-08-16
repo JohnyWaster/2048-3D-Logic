@@ -21,15 +21,19 @@ namespace _2048
 
         public int Value { get; set; }
 
-        public float X { get; set; }
+        public int X { get; set; }
 
-        public float Y { get; set; }
+        public int Y { get; set; }
 
-        public Cell(PossibleTextures textures, int value, PixelCoordinates coords)
+        private int _cellSize;
+
+        public Cell(PossibleTextures textures, int value, PixelCoordinates coords, int cellSize)
         {
             Value = value;
 
             _cellTextures = textures;
+
+            _cellSize = cellSize;
 
             X = coords.X;
             Y = coords.Y;
@@ -37,9 +41,9 @@ namespace _2048
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 topLeftOfSprite = new Vector2(this.X, this.Y);
             Color tintColor = Color.White;
-            spriteBatch.Draw(_cellTextures.LoadTexture(Value), topLeftOfSprite, tintColor);
+            Rectangle distinctionRectangle = new Rectangle(X, Y, _cellSize, _cellSize);
+            spriteBatch.Draw(_cellTextures.LoadTexture(Value), distinctionRectangle, tintColor);
         }
     }
 }
