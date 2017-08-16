@@ -19,31 +19,66 @@ namespace _2048
     {
         static PossibleTextures _cellTextures;
 
+        private const float VELOCITY = 10f;
+
         public int Value { get; set; }
 
-        public int X { get; set; }
+        public GameCoordinates Coordinates { get; set; }
 
-        public int Y { get; set; }
+        private PixelCoordinates _pixelCoordinates;
+
+        public bool Active { get; set; }
 
         private int _cellSize;
 
-        public Cell(PossibleTextures textures, int value, PixelCoordinates coords, int cellSize)
+        private static CoordinatesConversion _conversion;
+
+        public Cell(PossibleTextures textures, int value, GameCoordinates coords, CoordinatesConversion conversion)
         {
             Value = value;
 
             _cellTextures = textures;
 
-            _cellSize = cellSize;
+            _conversion = conversion;
 
-            X = coords.X;
-            Y = coords.Y;
+            _cellSize = _conversion.CellSize;
+
+            Coordinates = coords;
+
+            _pixelCoordinates = _conversion.ToPixelCoordinates(
+                Coordinates.X,
+                Coordinates.Y,
+                Coordinates.Z);
+
+            Active = false;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             Color tintColor = Color.White;
-            Rectangle distinctionRectangle = new Rectangle(X, Y, _cellSize, _cellSize);
-            spriteBatch.Draw(_cellTextures.LoadTexture(Value), distinctionRectangle, tintColor);
+
+            Rectangle distinctionRectangle = new Rectangle(
+                _pixelCoordinates.X,
+                _pixelCoordinates.Y,
+                _cellSize,
+                _cellSize);
+
+
+            spriteBatch.Draw(
+                _cellTextures.LoadTexture(Value),
+                distinctionRectangle,
+                tintColor);
+        }
+
+        public void Update(Vector2 direction, GameTime gameTime)
+        {
+            if (Active == false)
+            {
+                return;
+            }
+
+            _pixelCoordinates.X += (int)(direction.X * VELOCITY * gameTime.ElapsedGameTime.Milliseconds);
+            _pixelCoordinates.Y += (int)(direction.Y * VELOCITY * gameTime.ElapsedGameTime.Milliseconds);
         }
     }
 }

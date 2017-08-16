@@ -22,7 +22,7 @@ namespace _2048.UserActions
 
         static TouchCollection _touches;
 
-        public static IUserAction GetUserAction()
+        public static Vector2 GetUserAction()
         {
             // we use raw touch points for selection, since they are more appropriate
             // for that use than gestures. so we need to get that raw touch data.
@@ -32,46 +32,46 @@ namespace _2048.UserActions
             // goes down, we do hit detection to try and select one of our sprites.
             if (_touches.Count > 0 && _touches[0].State == TouchLocationState.Pressed)
             {
-                _prevLocation = new TouchLocation(_touches[0].Id, _touches[0].State, _touches[0].Position);
-                return null;
+                _prevLocation = _touches[0];
+                return Vector2.Zero;
             }
             if (_touches.Count > 0 && _touches[0].State == TouchLocationState.Released)
             {
-                _currentLocation = new TouchLocation(_touches[0].Id, _touches[0].State, _touches[0].Position);
+                _currentLocation = _touches[0];
 
                 // get your delta
                 var delta = _currentLocation.Position - _prevLocation.Position;
 
                 // Usually you don't want to do something if the user drags 1 pixel.
                 if (delta.LengthSquared() < 30)
-                    return null;
+                    return Vector2.Zero;
 
                 if (IsLeftTopDiagonal(delta))
                 {
-                    return new LeftTopDiagonalAction();
+                    return new Vector2(-1, -1);
                 }
                 if (IsRightBottomDiagonal(delta))
                 {
-                    return new RightBottomDiagonalAction();
+                    return new Vector2(1, 1);
                 }
                 if (IsHorizontalLeft(delta))
                 {
-                    return new HorizontalLeftAction();
+                    return new Vector2(-1, 0);
                 }
                 if (IsHorizontalRight(delta))
                 {
-                    return new HorizontalRightAction();
+                    return new Vector2(1, 0);
                 }
                 if (IsVerticalBottom(delta))
                 {
-                    return new VerticalBottomAction();
+                    return new Vector2(0, 1);
                 }
                 if (IsVerticalTop(delta))
                 {
-                    return new VerticalTopAction();
+                    return new Vector2(0, -1);
                 }
             }
-            return null;
+            return Vector2.Zero;
         }
 
 

@@ -25,8 +25,7 @@ namespace _2048
         int _widthScreen;
         int _heightScreen;
 
-
-        double counter = 0;
+        Vector2 _currentDirection;
 
         PossibleTextures _textures;
 
@@ -100,28 +99,27 @@ namespace _2048
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
-            var userAction = UserActions.InputHandler.GetUserAction();
-
-            if (userAction == null)
+            if (_currentDirection == Vector2.Zero)
             {
-                return;
+                _currentDirection = UserActions.InputHandler.GetUserAction();
+
+                foreach (var cell in _cells)
+                {
+                    cell.Active = true;
+                }
             }
 
-            userAction.Act(new int[3, 3, 3]);
+            if (_currentDirection != Vector2.Zero)
+            {
+                foreach (var cell in _cells)
+                {
+                    cell.Update(_currentDirection, gameTime);
+                }
+            }
+
+
+            AddCell(gameTime);
             
-
-
-            counter++;
-            // TODO: Add your update logic here
-            if (counter % 100 == 0)
-            {
-                var rand = new Random((int)gameTime.ElapsedGameTime.Ticks);
-
-                var coords = _conversion.ToPixelCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, 3));
-
-                var cell = new Cell(_textures, (int) Math.Pow(2, rand.Next(1, 14)), coords, _conversion.CellSize);
-                _cells.Add(cell);
-            }
 
             base.Update(gameTime);
         }
@@ -147,6 +145,20 @@ namespace _2048
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void AddCell(GameTime gameTime)
+        {
+            var rand = new Random((int)gameTime.ElapsedGameTime.Ticks);
+
+            var coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, 3));
+
+            // 0.25 probability of 4 and 0.75 of 2
+
+            int value = rand.Next(0, 4) == 0 ? 4 : 2;
+
+            var cell = new Cell(_textures, value, coords, _conversion);
+            _cells.Add(cell);
         }
     }
 }

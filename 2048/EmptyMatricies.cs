@@ -23,7 +23,13 @@ namespace _2048
         Vector2 _positionOfRightMatrix;
 
         int _cellSize;
-        
+
+        public Rectangle LeftMatrixRectangle { get; private set; }
+
+        public Rectangle RightMatrixRectangle { get; private set; }
+
+        public Rectangle CentralMatrixRectangle { get; private set; }
+
         public EmptyMatricies(GraphicsDevice graphicsDevice, int width, int height, int cellSize)
         {
             _cellSize = cellSize;
@@ -33,10 +39,6 @@ namespace _2048
             InitMatrixPositions(width, height);
         }
 
-        public void Update(GameTime gameTime)
-        {
-            
-        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -52,11 +54,27 @@ namespace _2048
             _positionOfCentralMatrix.X = (width - 3 * _cellSize) / 2;
             _positionOfCentralMatrix.Y = (height - 3 * _cellSize) / 2;
 
+            CentralMatrixRectangle = new Rectangle((int)_positionOfCentralMatrix.X,
+                                            (int)_positionOfCentralMatrix.Y,
+                                            (int)_positionOfCentralMatrix.X + 3 * _cellSize,
+                                            (int)_positionOfCentralMatrix.Y + 3 * _cellSize);
+
             _positionOfLeftMatrix.X = _positionOfCentralMatrix.X - 3 * _cellSize;
             _positionOfLeftMatrix.Y = _positionOfCentralMatrix.Y - 3 * _cellSize;
 
+            LeftMatrixRectangle = new Rectangle((int)_positionOfLeftMatrix.X,
+                                            (int)_positionOfLeftMatrix.Y,
+                                            (int)_positionOfLeftMatrix.X + 3 * _cellSize,
+                                            (int)_positionOfLeftMatrix.Y + 3 * _cellSize);
+
+            
             _positionOfRightMatrix.X = _positionOfCentralMatrix.X + 3 * _cellSize;
             _positionOfRightMatrix.Y = _positionOfCentralMatrix.Y + 3 * _cellSize;
+
+            RightMatrixRectangle = new Rectangle((int)_positionOfRightMatrix.X,
+                                            (int)_positionOfRightMatrix.Y,
+                                            (int)_positionOfRightMatrix.X + 3 * _cellSize,
+                                            (int)_positionOfRightMatrix.Y + 3 * _cellSize);
         }
 
         void InitTextureOfMatrix(GraphicsDevice graphicsDevice)

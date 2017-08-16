@@ -63,18 +63,12 @@
     <Compile Include="CoordinatesConversion.cs" />
     <Compile Include="EmptyMatricies.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="UserActions\HorizontalLeftAction.cs" />
-    <Compile Include="UserActions\HorizontalRightAction.cs" />
+    <Compile Include="GameCoordinates.cs" />
     <Compile Include="UserActions\InputHandler.cs" />
-    <Compile Include="UserActions\IUserAction.cs" />
     <Compile Include="PixelCoordinates.cs" />
     <Compile Include="PossibleTextures.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserActions\LeftTopDiagonalAction.cs" />
-    <Compile Include="UserActions\RightBottomDiagonalAction.cs" />
-    <Compile Include="UserActions\VerticalBottomAction.cs" />
-    <Compile Include="UserActions\VerticalTopAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
