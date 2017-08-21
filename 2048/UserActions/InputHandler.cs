@@ -22,7 +22,7 @@ namespace _2048.UserActions
 
         static TouchCollection _touches;
 
-        public static Vector2 GetUserAction()
+        public static IMoveFinisher GetUserAction()
         {
             // we use raw touch points for selection, since they are more appropriate
             // for that use than gestures. so we need to get that raw touch data.
@@ -33,7 +33,7 @@ namespace _2048.UserActions
             if (_touches.Count > 0 && _touches[0].State == TouchLocationState.Pressed)
             {
                 _prevLocation = _touches[0];
-                return Vector2.Zero;
+                return null;
             }
             if (_touches.Count > 0 && _touches[0].State == TouchLocationState.Released)
             {
@@ -44,34 +44,34 @@ namespace _2048.UserActions
 
                 // Usually you don't want to do something if the user drags 1 pixel.
                 if (delta.LengthSquared() < 30)
-                    return Vector2.Zero;
+                    return null;
 
                 if (IsLeftTopDiagonal(delta))
                 {
-                    return new Vector2(-1, -1);
+                    return null;
                 }
                 if (IsRightBottomDiagonal(delta))
                 {
-                    return new Vector2(1, 1);
+                    return null;
                 }
                 if (IsHorizontalLeft(delta))
                 {
-                    return new Vector2(-1, 0);
+                    return new LeftMoveFinisher();
                 }
                 if (IsHorizontalRight(delta))
                 {
-                    return new Vector2(1, 0);
+                    return new RightMoveFinisher();
                 }
                 if (IsVerticalBottom(delta))
                 {
-                    return new Vector2(0, 1);
+                    return new BottomMoveFinisher();
                 }
                 if (IsVerticalTop(delta))
                 {
-                    return new Vector2(0, -1);
+                    return new TopMoveFinisher();
                 }
             }
-            return Vector2.Zero;
+            return null;
         }
 
 

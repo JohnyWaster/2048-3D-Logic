@@ -25,6 +25,9 @@ namespace _2048
 
         public GameCoordinates Coordinates { get; set; }
 
+        
+        public Rectangle CellRectangle { get; private set; }
+
         private PixelCoordinates _pixelCoordinates;
 
         public bool Active { get; set; }
@@ -50,23 +53,23 @@ namespace _2048
                 Coordinates.Y,
                 Coordinates.Z);
 
-            Active = false;
+            CellRectangle = new Rectangle(
+                _pixelCoordinates.X,
+                _pixelCoordinates.Y,
+                _cellSize,
+                _cellSize);
+
+            Active = true;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             Color tintColor = Color.White;
 
-            Rectangle distinctionRectangle = new Rectangle(
-                _pixelCoordinates.X,
-                _pixelCoordinates.Y,
-                _cellSize,
-                _cellSize);
-
 
             spriteBatch.Draw(
                 _cellTextures.LoadTexture(Value),
-                distinctionRectangle,
+                CellRectangle,
                 tintColor);
         }
 
@@ -77,8 +80,16 @@ namespace _2048
                 return;
             }
 
-            _pixelCoordinates.X += (int)(direction.X * VELOCITY * gameTime.ElapsedGameTime.Milliseconds);
-            _pixelCoordinates.Y += (int)(direction.Y * VELOCITY * gameTime.ElapsedGameTime.Milliseconds);
+            _pixelCoordinates.X += (int)(direction.X);
+            _pixelCoordinates.Y += (int)(direction.Y);
+
+            CellRectangle = new Rectangle(
+    _pixelCoordinates.X,
+    _pixelCoordinates.Y,
+    _cellSize,
+    _cellSize);
+
+
         }
     }
 }

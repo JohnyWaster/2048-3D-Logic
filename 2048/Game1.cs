@@ -20,12 +20,13 @@ namespace _2048
 
         CoordinatesConversion _conversion;
 
+
         List<Cell> _cells;
-        EmptyMatricies _field;
+        GameField _field;
         int _widthScreen;
         int _heightScreen;
 
-        Vector2 _currentDirection;
+        IMoveFinisher _moveFinisher;
 
         PossibleTextures _textures;
 
@@ -60,7 +61,7 @@ namespace _2048
 
             _conversion = new CoordinatesConversion(_widthScreen, _heightScreen);
 
-            _field = new EmptyMatricies(GraphicsDevice, _widthScreen, _heightScreen, _conversion.CellSize);
+            _field = new GameField(GraphicsDevice, _widthScreen, _heightScreen, _conversion.CellSize);
 
             _cells = new List<Cell>();
 
@@ -99,32 +100,56 @@ namespace _2048
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
-            if (_currentDirection == Vector2.Zero)
+            if (_moveFinisher == null)
             {
-                _currentDirection = UserActions.InputHandler.GetUserAction();
-
+                _moveFinisher = UserActions.InputHandler.GetUserAction();
+               
                 foreach (var cell in _cells)
                 {
                     cell.Active = true;
                 }
             }
 
-            if (_currentDirection != Vector2.Zero)
-            {
+            if (_moveFinisher != null)
+            {       
+                _moveFinisher.SetGameParams(_cells, _field);
+                      
+                _moveFinisher.DeactivateFinishedCells();
+                _moveFinisher.DeactivateFinishedCells();
+                _moveFinisher.DeactivateFinishedCells();
+
+                int unFinishedCellsCounter = 0;
+
                 foreach (var cell in _cells)
                 {
-                    cell.Update(_currentDirection, gameTime);
+                    if (cell.Active)
+                    {
+                        cell.Update(_moveFinisher.Direction, gameTime);
+
+                        var newCoordinates = _field.IsItGameCoordinate(cell.CellRectangle);
+
+                        if (newCoordinates != null)
+                        {
+                            cell.Coordinates = (GameCoordinates)newCoordinates;
+                        }
+
+                        unFinishedCellsCounter++;
+                    }              
+                }
+
+                if (unFinishedCellsCounter == 0)
+                {
+                    _moveFinisher = null;
+                    AddCell(gameTime);
+                    _field.ResetEmptyCells();
                 }
             }
 
 
-            AddCell(gameTime);
-            
-
             base.Update(gameTime);
         }
 
-        
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -150,12 +175,16 @@ namespace _2048
         private void AddCell(GameTime gameTime)
         {
             var rand = new Random((int)gameTime.ElapsedGameTime.Ticks);
+            
+            // 0.25 probability of 4 and 0.75 of 2
+            int value = rand.Next(0, 4) == 0 ? 4 : 2;
 
             var coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, 3));
 
-            // 0.25 probability of 4 and 0.75 of 2
-
-            int value = rand.Next(0, 4) == 0 ? 4 : 2;
+            while (!_field.FieldCells[coords.X, coords.Y, coords.Z].IsEmpty)
+            {
+                coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, 3));
+            }
 
             var cell = new Cell(_textures, value, coords, _conversion);
             _cells.Add(cell);
