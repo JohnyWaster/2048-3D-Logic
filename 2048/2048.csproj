@@ -59,19 +59,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activity1.cs" />
-    <Compile Include="Cell.cs" />
-    <Compile Include="CoordinatesConversion.cs" />
-    <Compile Include="FieldCell.cs" />
-    <Compile Include="GameField.cs" />
+    <Compile Include="GameFieldLogic\Cell.cs" />
+    <Compile Include="Coordinates\CoordinatesConversion.cs" />
+    <Compile Include="GameFieldLogic\FieldCell.cs" />
+    <Compile Include="GameFieldLogic\GameField.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameCoordinates.cs" />
+    <Compile Include="Coordinates\GameCoordinates.cs" />
     <Compile Include="UserActions\BottomMoveFinisher.cs" />
     <Compile Include="UserActions\LeftMoveFinisher.cs" />
     <Compile Include="UserActions\RightMoveFinisher.cs" />
     <Compile Include="UserActions\IMoveFinisher.cs" />
     <Compile Include="UserActions\InputHandler.cs" />
-    <Compile Include="PixelCoordinates.cs" />
-    <Compile Include="PossibleTextures.cs" />
+    <Compile Include="Coordinates\PixelCoordinates.cs" />
+    <Compile Include="GameFieldLogic\PossibleTextures.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserActions\TopMoveFinisher.cs" />

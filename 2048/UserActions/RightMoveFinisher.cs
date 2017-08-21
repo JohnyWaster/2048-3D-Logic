@@ -43,7 +43,7 @@ namespace _2048.UserActions
 
         }
 
-        public void SetGameParams(List<Cell> cells, GameField field)
+        public RightMoveFinisher(List<Cell> cells, GameField field)
         {
             _cells = cells;
             _field = field;

@@ -80,7 +80,7 @@ namespace _2048
                 return;
             }
 
-            _pixelCoordinates.X += (int)(direction.X);
+            _pixelCoordinates.X += (int) (direction.X);
             _pixelCoordinates.Y += (int)(direction.Y);
 
             CellRectangle = new Rectangle(

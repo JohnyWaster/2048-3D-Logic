@@ -14,15 +14,39 @@ using Microsoft.Xna.Framework.Input.Touch;
 
 namespace _2048.UserActions
 {
-    static class InputHandler
+    class InputHandler
     {
-        static TouchLocation _prevLocation;
+        TouchLocation _prevLocation;
 
-        static TouchLocation _currentLocation;
+        TouchLocation _currentLocation;
 
-        static TouchCollection _touches;
+        TouchCollection _touches;
 
-        public static IMoveFinisher GetUserAction()
+        BottomMoveFinisher _bottomMoveFinisher;
+
+        LeftMoveFinisher _leftMoveFinisher;
+
+        RightMoveFinisher _rightMoveFinisher;
+
+        TopMoveFinisher _topMoveFinisher;
+
+        List<Cell> _cells;
+
+        GameField _field; 
+
+
+        public InputHandler(List<Cell> cells, GameField field)
+        {
+            _field = field;
+            _cells = cells;
+
+            _bottomMoveFinisher = new BottomMoveFinisher(_cells, _field);
+            _leftMoveFinisher = new LeftMoveFinisher(_cells, _field);
+            _rightMoveFinisher = new RightMoveFinisher(_cells, _field);
+            _topMoveFinisher = new TopMoveFinisher(_cells, _field);
+        }
+
+        public IMoveFinisher GetUserAction()
         {
             // we use raw touch points for selection, since they are more appropriate
             // for that use than gestures. so we need to get that raw touch data.
@@ -56,19 +80,19 @@ namespace _2048.UserActions
                 }
                 if (IsHorizontalLeft(delta))
                 {
-                    return new LeftMoveFinisher();
+                    return _leftMoveFinisher;
                 }
                 if (IsHorizontalRight(delta))
                 {
-                    return new RightMoveFinisher();
+                    return _rightMoveFinisher;
                 }
                 if (IsVerticalBottom(delta))
                 {
-                    return new BottomMoveFinisher();
+                    return _bottomMoveFinisher;
                 }
                 if (IsVerticalTop(delta))
                 {
-                    return new TopMoveFinisher();
+                    return _topMoveFinisher;
                 }
             }
             return null;

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using _2048.UserActions;
 
 namespace _2048
 {
@@ -27,6 +28,8 @@ namespace _2048
         int _heightScreen;
 
         IMoveFinisher _moveFinisher;
+
+        InputHandler _inputHandler;
 
         PossibleTextures _textures;
 
@@ -65,6 +68,8 @@ namespace _2048
 
             _cells = new List<Cell>();
 
+            _inputHandler = new InputHandler(_cells, _field);
+
             base.Initialize();
         }
 
@@ -102,7 +107,7 @@ namespace _2048
 
             if (_moveFinisher == null)
             {
-                _moveFinisher = UserActions.InputHandler.GetUserAction();
+                _moveFinisher = _inputHandler.GetUserAction();
                
                 foreach (var cell in _cells)
                 {
@@ -112,8 +117,6 @@ namespace _2048
 
             if (_moveFinisher != null)
             {       
-                _moveFinisher.SetGameParams(_cells, _field);
-                      
                 _moveFinisher.DeactivateFinishedCells();
                 _moveFinisher.DeactivateFinishedCells();
                 _moveFinisher.DeactivateFinishedCells();
