@@ -121,13 +121,17 @@ namespace _2048
             }
 
             if (_moveFinisher != null)
-            {       
-                _moveFinisher.DeactivateFinishedCells();
+            {
                 _moveFinisher.DeactivateFinishedCells();
                 _moveFinisher.DeactivateFinishedCells();
 
-               // _cellsCombiner.CombineCells(_moveFinisher.Direction);
+                _cellsCombiner.CombineCells(_moveFinisher.Direction);
+                _cellsCombiner.CombineCells(_moveFinisher.Direction);
 
+                _moveFinisher.ActivateFalselyFinishedCells();
+                _moveFinisher.DeactivateFinishedCells();
+
+                
                 int unFinishedCellsCounter = 0;
 
                 foreach (var cell in _cells)
@@ -154,7 +158,6 @@ namespace _2048
                     _field.ResetEmptyCells();
                 }
             }
-
 
             base.Update(gameTime);
         }

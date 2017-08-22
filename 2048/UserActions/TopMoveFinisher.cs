@@ -51,6 +51,21 @@ namespace _2048.UserActions
             }
         }
 
+        public void ActivateFalselyFinishedCells()
+        {
+            foreach (var cell in _cells)
+            {
+                if (cell.Coordinates.Y > 0 && !cell.Active)
+                {
+                    if (_field.FieldCells[cell.Coordinates.X, cell.Coordinates.Y - 1, cell.Coordinates.Z].IsEmpty)
+                    {
+                        cell.Active = true;
+                        _field.FieldCells[cell.Coordinates.X, cell.Coordinates.Y, cell.Coordinates.Z].IsEmpty = true;
+                    }
+                }
+            }
+        }
+
         public TopMoveFinisher(List<Cell> cells, GameField field)
         {
             _cells = cells;

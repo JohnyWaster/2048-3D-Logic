@@ -7,5 +7,6 @@ namespace _2048
     {
         Vector2 Direction { get; }
         void DeactivateFinishedCells();
+        void ActivateFalselyFinishedCells();
     }
 }

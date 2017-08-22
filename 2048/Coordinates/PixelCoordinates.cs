@@ -14,8 +14,8 @@ namespace _2048
 {
     struct PixelCoordinates
     {
-        private int _x;
-        public int X
+        private decimal _x;
+        public decimal X
         {
             get { return _x; }
             set
@@ -28,8 +28,8 @@ namespace _2048
             }
         }
 
-        private int _y;
-        public int Y
+        private decimal _y;
+        public decimal Y
         {
             get { return _y; }
             set

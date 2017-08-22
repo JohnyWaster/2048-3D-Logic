@@ -19,7 +19,7 @@ namespace _2048
     {
         static PossibleTextures _cellTextures;
 
-        private const float VELOCITY = 10f;
+        private static decimal VELOCITY;
 
         public int Value { get; set; }
 
@@ -32,7 +32,9 @@ namespace _2048
 
         public bool Active { get; set; }
 
-        private int _cellSize;
+        public bool ForRemove { get; set; }
+
+        private static int _cellSize;
 
         private static CoordinatesConversion _conversion;
 
@@ -44,26 +46,6 @@ namespace _2048
 
             _conversion = conversion;
 
-            Coordinates = coords;
-
-            _pixelCoordinates = _conversion.ToPixelCoordinates(
-                Coordinates.X,
-                Coordinates.Y,
-                Coordinates.Z);
-
-            CellRectangle = new Rectangle(
-                _pixelCoordinates.X,
-                _pixelCoordinates.Y,
-                _cellSize,
-                _cellSize);
-
-            Active = true;
-        }
-        /*
-        public Cell(int value, GameCoordinates coords)
-        {
-            Value = value;
-
             _cellSize = _conversion.CellSize;
 
             Coordinates = coords;
@@ -74,14 +56,38 @@ namespace _2048
                 Coordinates.Z);
 
             CellRectangle = new Rectangle(
-                _pixelCoordinates.X,
-                _pixelCoordinates.Y,
+                (int)_pixelCoordinates.X,
+                (int)_pixelCoordinates.Y,
+                _cellSize,
+                _cellSize);
+
+            Active = true;
+
+            ForRemove = false;
+
+            VELOCITY = (decimal)_cellSize/20;
+        }
+        
+        public Cell(int value, GameCoordinates coords)
+        {
+            Value = value;
+
+            Coordinates = coords;
+
+            _pixelCoordinates = _conversion.ToPixelCoordinates(
+                Coordinates.X,
+                Coordinates.Y,
+                Coordinates.Z);
+
+            CellRectangle = new Rectangle(
+                (int)_pixelCoordinates.X,
+                (int)_pixelCoordinates.Y,
                 _cellSize,
                 _cellSize);
 
             Active = true;
         }
-        */
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             Color tintColor = Color.White;
@@ -100,12 +106,12 @@ namespace _2048
                 return;
             }
 
-            _pixelCoordinates.X += (int) (direction.X);
-            _pixelCoordinates.Y += (int)(direction.Y);
+            _pixelCoordinates.X += (decimal)direction.X * VELOCITY;
+            _pixelCoordinates.Y += (decimal)direction.Y * VELOCITY;
 
             CellRectangle = new Rectangle(
-    _pixelCoordinates.X,
-    _pixelCoordinates.Y,
+    (int)_pixelCoordinates.X,
+    (int)_pixelCoordinates.Y,
     _cellSize,
     _cellSize);
 

@@ -43,6 +43,21 @@ namespace _2048.UserActions
 
         }
 
+        public void ActivateFalselyFinishedCells()
+        {
+            foreach (var cell in _cells)
+            {               
+                if (cell.Coordinates.X < 2 && !cell.Active)
+                {
+                    if (_field.FieldCells[cell.Coordinates.X + 1, cell.Coordinates.Y, cell.Coordinates.Z].IsEmpty)
+                    {
+                        cell.Active = true;
+                        _field.FieldCells[cell.Coordinates.X, cell.Coordinates.Y, cell.Coordinates.Z].IsEmpty = true;
+                    }
+                }
+            }
+        }
+
         public RightMoveFinisher(List<Cell> cells, GameField field)
         {
             _cells = cells;

@@ -9,6 +9,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Microsoft.Xna.Framework;
+using Org.Apache.Http.Impl.Conn;
 
 namespace _2048
 {
@@ -70,6 +72,36 @@ namespace _2048
             _x = x;
             _y = y;
             _z = z;
+        }
+
+        public GameCoordinates Add(Vector2 direction)
+        {
+            int x = _x + (int)direction.X;
+            int y = _y + (int)direction.Y;
+            int z = _z + (int)(direction.X * direction.Y);
+            return new GameCoordinates(x,y,z);
+        }
+
+        public static bool operator ==(GameCoordinates left, GameCoordinates right)
+        {
+            if (left.X == right.X &&
+                left.Y == right.Y &&
+                left.Z == right.Z)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool operator !=(GameCoordinates left, GameCoordinates right)
+        {
+            if (left.X != right.X ||
+                left.Y != right.Y ||
+                left.Z != right.Z)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
