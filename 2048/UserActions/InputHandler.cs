@@ -30,6 +30,10 @@ namespace _2048.UserActions
 
         TopMoveFinisher _topMoveFinisher;
 
+        LeftTopDiagonalFinisher _leftTopDiagonal;
+
+        RightBottomDiagonalFinisher _rightBottomDiagonal;
+
         List<Cell> _cells;
 
         GameField _field; 
@@ -44,6 +48,8 @@ namespace _2048.UserActions
             _leftMoveFinisher = new LeftMoveFinisher(_cells, _field);
             _rightMoveFinisher = new RightMoveFinisher(_cells, _field);
             _topMoveFinisher = new TopMoveFinisher(_cells, _field);
+            _leftTopDiagonal = new LeftTopDiagonalFinisher(_cells, _field);
+            _rightBottomDiagonal = new RightBottomDiagonalFinisher(_cells, _field);
         }
 
         public IMoveFinisher GetUserAction()
@@ -72,11 +78,11 @@ namespace _2048.UserActions
 
                 if (IsLeftTopDiagonal(delta))
                 {
-                    return null;
+                    return _leftTopDiagonal;
                 }
                 if (IsRightBottomDiagonal(delta))
                 {
-                    return null;
+                    return _rightBottomDiagonal;
                 }
                 if (IsHorizontalLeft(delta))
                 {

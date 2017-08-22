@@ -125,6 +125,7 @@ namespace _2048
                 _moveFinisher.DeactivateFinishedCells();
                 _moveFinisher.DeactivateFinishedCells();
 
+                //two times for solving next issue: 2,2,4 -> _,_,8
                 _cellsCombiner.CombineCells(_moveFinisher.Direction);
                 _cellsCombiner.CombineCells(_moveFinisher.Direction);
 

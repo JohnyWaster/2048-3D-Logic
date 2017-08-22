@@ -9,4 +9,5 @@ namespace _2048
         void DeactivateFinishedCells();
         void ActivateFalselyFinishedCells();
     }
+
 }

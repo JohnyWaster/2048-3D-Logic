@@ -68,6 +68,8 @@
     <Compile Include="Coordinates\GameCoordinates.cs" />
     <Compile Include="UserActions\BottomMoveFinisher.cs" />
     <Compile Include="UserActions\LeftMoveFinisher.cs" />
+    <Compile Include="UserActions\LeftTopDiagonalFinisher.cs" />
+    <Compile Include="UserActions\RightBottomDiagonalFinisher.cs" />
     <Compile Include="UserActions\RightMoveFinisher.cs" />
     <Compile Include="UserActions\IMoveFinisher.cs" />
     <Compile Include="UserActions\InputHandler.cs" />
