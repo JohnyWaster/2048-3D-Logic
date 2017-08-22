@@ -44,6 +44,26 @@ namespace _2048
 
             _conversion = conversion;
 
+            Coordinates = coords;
+
+            _pixelCoordinates = _conversion.ToPixelCoordinates(
+                Coordinates.X,
+                Coordinates.Y,
+                Coordinates.Z);
+
+            CellRectangle = new Rectangle(
+                _pixelCoordinates.X,
+                _pixelCoordinates.Y,
+                _cellSize,
+                _cellSize);
+
+            Active = true;
+        }
+        /*
+        public Cell(int value, GameCoordinates coords)
+        {
+            Value = value;
+
             _cellSize = _conversion.CellSize;
 
             Coordinates = coords;
@@ -61,7 +81,7 @@ namespace _2048
 
             Active = true;
         }
-
+        */
         public void Draw(SpriteBatch spriteBatch)
         {
             Color tintColor = Color.White;

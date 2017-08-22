@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using _2048.GameFieldLogic;
 using _2048.UserActions;
 
 namespace _2048
@@ -32,6 +33,8 @@ namespace _2048
         InputHandler _inputHandler;
 
         PossibleTextures _textures;
+
+        CellsCombiner _cellsCombiner;
 
         public Game1()
         {
@@ -69,6 +72,8 @@ namespace _2048
             _cells = new List<Cell>();
 
             _inputHandler = new InputHandler(_cells, _field);
+
+            _cellsCombiner = new CellsCombiner(_field, _cells);
 
             base.Initialize();
         }
@@ -120,6 +125,8 @@ namespace _2048
                 _moveFinisher.DeactivateFinishedCells();
                 _moveFinisher.DeactivateFinishedCells();
                 _moveFinisher.DeactivateFinishedCells();
+
+               // _cellsCombiner.CombineCells(_moveFinisher.Direction);
 
                 int unFinishedCellsCounter = 0;
 

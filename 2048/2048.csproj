@@ -61,6 +61,7 @@
     <Compile Include="Activity1.cs" />
     <Compile Include="GameFieldLogic\Cell.cs" />
     <Compile Include="Coordinates\CoordinatesConversion.cs" />
+    <Compile Include="GameFieldLogic\CellsCombiner.cs" />
     <Compile Include="GameFieldLogic\FieldCell.cs" />
     <Compile Include="GameFieldLogic\GameField.cs" />
     <Compile Include="Game1.cs" />
