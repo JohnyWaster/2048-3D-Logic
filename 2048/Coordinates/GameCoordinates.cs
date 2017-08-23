@@ -76,10 +76,17 @@ namespace _2048
 
         public GameCoordinates Add(Vector2 direction)
         {
+            if (direction.X == 1 && direction.Y == 1)
+            {
+                return new GameCoordinates(_x, _y, _z + 1);
+            }
+            if (direction.X == -1 && direction.Y == -1)
+            {
+                return new GameCoordinates(_x, _y, _z - 1);
+            }
             int x = _x + (int)direction.X;
             int y = _y + (int)direction.Y;
-            int z = _z + (int)(direction.X * direction.Y);
-            return new GameCoordinates(x,y,z);
+            return new GameCoordinates(x,y,_z);
         }
 
         public static bool operator ==(GameCoordinates left, GameCoordinates right)
