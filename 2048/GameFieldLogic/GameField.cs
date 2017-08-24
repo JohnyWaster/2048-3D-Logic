@@ -23,6 +23,9 @@ namespace _2048
         Vector2 _positionOfRightMatrix;
 
         int _cellSize;
+        int _width;
+        int _height;
+        GraphicsDevice _graphicsDevice;
 
         public FieldCell[,,] FieldCells { get; set; }
 
@@ -32,15 +35,40 @@ namespace _2048
 
         public Rectangle CentralMatrixRectangle { get; private set; }
 
+        public Rectangle UndoButton { get; private set; }
+
+        Texture2D _buttonTexture;
+
+        public GameField(GameField copy)
+        {
+            _cellSize = copy._cellSize;
+            _width = copy._width;
+            _height = copy._height;
+            _graphicsDevice = copy._graphicsDevice;
+
+            InitTextureOfMatrix(_graphicsDevice);
+
+            InitMatrixPositions(_width, _height);
+
+            FieldCells = copy.FieldCells;
+
+            InitUndoButton(_graphicsDevice);
+        }
+
         public GameField(GraphicsDevice graphicsDevice, int width, int height, int cellSize)
         {
             _cellSize = cellSize;
+            _width = width;
+            _height = height;
+            _graphicsDevice = graphicsDevice;
 
             InitTextureOfMatrix(graphicsDevice);
 
             InitMatrixPositions(width, height);
 
             InitCellsRectangles();
+
+            InitUndoButton(graphicsDevice);
         }
 
 
@@ -51,6 +79,8 @@ namespace _2048
             spriteBatch.Draw(_emptyMatrix, _positionOfLeftMatrix);
 
             spriteBatch.Draw(_emptyMatrix, _positionOfRightMatrix);
+
+            spriteBatch.Draw(_buttonTexture, new Vector2(UndoButton.X, UndoButton.Y));
         }
 
         void InitMatrixPositions(float width, float height)
@@ -90,6 +120,23 @@ namespace _2048
             for (int i = 0; i < numberOfPixelsInMatrix; i++)
                 colorData[i] = Color.Coral;
             _emptyMatrix.SetData<Color>(colorData);
+        }
+
+        void InitUndoButton(GraphicsDevice graphicsDevice)
+        {
+            int numberOfPixelsInButton =  7 * 2 * _cellSize * _cellSize;
+
+            _buttonTexture = new Texture2D(graphicsDevice, 7*_cellSize, 2*_cellSize);
+
+            Color[] colorData = new Color[numberOfPixelsInButton];
+            for (int i = 0; i < numberOfPixelsInButton; i++)
+            {
+                colorData[i] = Color.BurlyWood;
+            }
+
+            _buttonTexture.SetData<Color>(colorData);
+
+            UndoButton = new Rectangle((int)_positionOfLeftMatrix.X + _cellSize, (int)_positionOfRightMatrix.Y + 4*_cellSize, 7*_cellSize, 2*_cellSize);
         }
 
         public void ResetEmptyCells()

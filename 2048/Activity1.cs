@@ -18,7 +18,7 @@ namespace _2048
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            var g = new Game1();
+            var g = new Game2048();
             SetContentView((View)g.Services.GetService(typeof(View)));
             g.Run();
         }

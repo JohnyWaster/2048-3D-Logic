@@ -19,10 +19,13 @@ namespace _2048.GameFieldLogic
 
         List<Cell> _cells;
 
-        public CellsCombiner(GameField field, List<Cell> cells)
+        Score _score;
+
+        public CellsCombiner(GameField field, List<Cell> cells, Score score)
         {
             _field = field;
             _cells = cells;
+            _score = score;
         }
 
         public void CombineCells(Vector2 direction)
@@ -69,6 +72,8 @@ namespace _2048.GameFieldLogic
                                 {
                                     //uniting two cells
                                     _cells.Add(new Cell(_cells[j].Value*2, _cells[j].Coordinates));
+                                    _score.ScoreValue += _cells[j].Value;
+                                    _score.ScoreValue += _cells[i].Value;
                                     _cells[j].ForRemove = true;
                                     _cells[i].ForRemove = true;
                                     _field.FieldCells[

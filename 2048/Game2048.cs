@@ -15,7 +15,7 @@ namespace _2048
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Game2048 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -28,6 +28,11 @@ namespace _2048
         int _widthScreen;
         int _heightScreen;
 
+        SpriteFont _font;
+
+        Score _score = new Score();
+        Vector2 _scoreLocation;
+
         IMoveFinisher _moveFinisher;
 
         InputHandler _inputHandler;
@@ -36,7 +41,7 @@ namespace _2048
 
         CellsCombiner _cellsCombiner;
 
-        public Game1()
+        public Game2048()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -66,14 +71,14 @@ namespace _2048
             _textures = new PossibleTextures(Content);
 
             _conversion = new CoordinatesConversion(_widthScreen, _heightScreen);
-
+            
             _field = new GameField(GraphicsDevice, _widthScreen, _heightScreen, _conversion.CellSize);
 
             _cells = new List<Cell>();
 
             _inputHandler = new InputHandler(_cells, _field);
 
-            _cellsCombiner = new CellsCombiner(_field, _cells);
+            _cellsCombiner = new CellsCombiner(_field, _cells, _score);
 
             base.Initialize();
         }
@@ -88,7 +93,7 @@ namespace _2048
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
+            _font = Content.Load<SpriteFont>("Arial24");
         }
 
         /// <summary>
@@ -113,15 +118,35 @@ namespace _2048
             if (_moveFinisher == null)
             {
                 _moveFinisher = _inputHandler.GetUserAction();
-               
-                foreach (var cell in _cells)
+
+                Undo undo = _moveFinisher as Undo;
+
+                if (undo != null)
                 {
-                    cell.Active = true;
+                    undo.RestoreState(ref _field,ref _cells,ref _score);
+
+                    _moveFinisher = null;
+
+                    _inputHandler = new InputHandler(_cells, _field);
+
+                    _cellsCombiner = new CellsCombiner(_field, _cells, _score);
+
+                    return;
                 }
+
+                if (_moveFinisher != null)
+                {
+                    Undo.SaveState(_field, _cells, _score);
+
+                    foreach (var cell in _cells)
+                    {
+                        cell.Active = true;
+                    }
+                }        
             }
 
             if (_moveFinisher != null)
-            {
+            {             
                 _moveFinisher.DeactivateFinishedCells();
                 _moveFinisher.DeactivateFinishedCells();
 
@@ -155,7 +180,7 @@ namespace _2048
                 if (unFinishedCellsCounter == 0)
                 {
                     _moveFinisher = null;
-                    AddCell(gameTime);
+                    AddCell(gameTime);                    
                     _field.ResetEmptyCells();
                 }
             }
@@ -180,6 +205,8 @@ namespace _2048
             {
                 cell.Draw(spriteBatch);
             }
+
+            spriteBatch.DrawString(_font, "Score: " + _score.ScoreValue, new Vector2(50,50), Color.Black);
 
             spriteBatch.End();
 

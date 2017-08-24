@@ -64,8 +64,10 @@
     <Compile Include="GameFieldLogic\CellsCombiner.cs" />
     <Compile Include="GameFieldLogic\FieldCell.cs" />
     <Compile Include="GameFieldLogic\GameField.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="Game2048.cs" />
     <Compile Include="Coordinates\GameCoordinates.cs" />
+    <Compile Include="GameFieldLogic\Score.cs" />
+    <Compile Include="GameFieldLogic\State.cs" />
     <Compile Include="UserActions\BottomMoveFinisher.cs" />
     <Compile Include="UserActions\LeftMoveFinisher.cs" />
     <Compile Include="UserActions\LeftTopDiagonalFinisher.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserActions\TopMoveFinisher.cs" />
+    <Compile Include="UserActions\Undo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

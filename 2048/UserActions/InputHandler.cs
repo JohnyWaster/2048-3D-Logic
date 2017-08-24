@@ -34,6 +34,8 @@ namespace _2048.UserActions
 
         RightBottomDiagonalFinisher _rightBottomDiagonal;
 
+        Undo _undo;
+
         List<Cell> _cells;
 
         GameField _field; 
@@ -44,6 +46,7 @@ namespace _2048.UserActions
             _field = field;
             _cells = cells;
 
+            _undo = new Undo();
             _bottomMoveFinisher = new BottomMoveFinisher(_cells, _field);
             _leftMoveFinisher = new LeftMoveFinisher(_cells, _field);
             _rightMoveFinisher = new RightMoveFinisher(_cells, _field);
@@ -57,7 +60,7 @@ namespace _2048.UserActions
             // we use raw touch points for selection, since they are more appropriate
             // for that use than gestures. so we need to get that raw touch data.
             _touches = TouchPanel.GetState();
-
+            
             // see if we have a new primary point down. when the first touch
             // goes down, we do hit detection to try and select one of our sprites.
             if (_touches.Count > 0 && _touches[0].State == TouchLocationState.Pressed)
@@ -74,7 +77,15 @@ namespace _2048.UserActions
 
                 // Usually you don't want to do something if the user drags 1 pixel.
                 if (delta.LengthSquared() < 30)
+                {
+                    if (_field.UndoButton.Contains(_currentLocation.Position) &&
+                        _field.UndoButton.Contains(_prevLocation.Position))
+                    {
+                        return _undo;
+                    }
                     return null;
+                }
+                    
 
                 if (IsLeftTopDiagonal(delta))
                 {
