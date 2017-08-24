@@ -76,6 +76,8 @@ namespace _2048
 
             _cells = new List<Cell>();
 
+            AddCell(new GameTime(TimeSpan.Zero, TimeSpan.Zero));
+
             _inputHandler = new InputHandler(_cells, _field);
 
             _cellsCombiner = new CellsCombiner(_field, _cells, _score);
@@ -205,8 +207,8 @@ namespace _2048
             {
                 cell.Draw(spriteBatch);
             }
-
-            spriteBatch.DrawString(_font, "Score: " + _score.ScoreValue, new Vector2(50,50), Color.Black);
+            
+            spriteBatch.DrawString(_font, "Score: " + _score.ScoreValue, new Vector2(_field.CentralMatrixRectangle.X, _conversion.CellSize), Color.Firebrick);
 
             spriteBatch.End();
 
