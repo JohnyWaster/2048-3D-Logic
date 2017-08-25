@@ -51,6 +51,13 @@ namespace _2048.UserActions
             IsMemoryEmpty = false;
         }
 
+        public static void CleanMemory()
+        {
+            _memory = new List<State>(_memoryLength);
+
+            IsMemoryEmpty = true;
+        }
+
         public static bool IsMemoryEmpty { get; private set; }
 
         public void RestoreState(ref GameField field,ref List<Cell> cells,ref Score score)

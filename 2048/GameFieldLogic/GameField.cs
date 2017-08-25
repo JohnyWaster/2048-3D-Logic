@@ -153,6 +153,24 @@ namespace _2048
             }
         }
 
+        public bool LackOfEmptyCells()
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    for (int z = 0; z < 3; z++)
+                    {
+                        if (FieldCells[x, y, z].IsEmpty)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         void InitCellsRectangles()
         {
             FieldCells = new FieldCell[3,3,3];

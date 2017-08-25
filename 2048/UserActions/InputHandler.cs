@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
+using _2048.DifficultyLevels;
 
 namespace _2048.UserActions
 {
@@ -115,6 +116,78 @@ namespace _2048.UserActions
             return null;
         }
 
+        public bool TryAgain()
+        {
+            // we use raw touch points for selection, since they are more appropriate
+            // for that use than gestures. so we need to get that raw touch data.
+            _touches = TouchPanel.GetState();
+            
+            // see if we have a new primary point down. when the first touch
+            // goes down, we do hit detection to try and select one of our sprites.
+            if (_touches.Count > 0 && _touches[0].State == TouchLocationState.Pressed)
+            {
+                _prevLocation = _touches[0];
+                return false;
+            }
+            if (_touches.Count > 0 && _touches[0].State == TouchLocationState.Released)
+            {
+                _currentLocation = _touches[0];
+
+                // get your delta
+                var delta = _currentLocation.Position - _prevLocation.Position;
+
+                // Usually you don't want to do something if the user drags 1 pixel.
+                if (delta.LengthSquared() < 30)
+                {
+                    if (_field.UndoButton.Contains(_currentLocation.Position) &&
+                        _field.UndoButton.Contains(_prevLocation.Position))
+                    {
+                        return true;
+                    }
+
+                }
+            }
+            return false;
+        }
+
+        public DifficultyLevel? GetDifficultyLevel(FirstScreen firstScreen)
+        {
+            // we use raw touch points for selection, since they are more appropriate
+            // for that use than gestures. so we need to get that raw touch data.
+            _touches = TouchPanel.GetState();
+
+            // see if we have a new primary point down. when the first touch
+            // goes down, we do hit detection to try and select one of our sprites.
+            if (_touches.Count > 0 && _touches[0].State == TouchLocationState.Pressed)
+            {
+                _prevLocation = _touches[0];
+                return null;
+            }
+            if (_touches.Count > 0 && _touches[0].State == TouchLocationState.Released)
+            {
+                _currentLocation = _touches[0];
+
+                // get your delta
+                var delta = _currentLocation.Position - _prevLocation.Position;
+
+                // Usually you don't want to do something if the user drags 1 pixel.
+                if (delta.LengthSquared() < 30)
+                {
+                    if (firstScreen.HardButton.Contains(_currentLocation.Position) &&
+                        firstScreen.HardButton.Contains(_prevLocation.Position))
+                    {
+                        return DifficultyLevel.VeryHard;
+                    }
+
+                    if (firstScreen.EasyButton.Contains(_currentLocation.Position) &&
+                         firstScreen.EasyButton.Contains(_prevLocation.Position))
+                    {
+                        return DifficultyLevel.Easy;
+                    }
+                }
+            }
+            return null;
+        }
 
         private static bool IsVerticalTop(Vector2 delta)
         {

@@ -59,6 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activity1.cs" />
+    <Compile Include="DifficultyLevels\DifficultyLevel.cs" />
+    <Compile Include="DifficultyLevels\FirstScreen.cs" />
     <Compile Include="GameFieldLogic\Cell.cs" />
     <Compile Include="Coordinates\CoordinatesConversion.cs" />
     <Compile Include="GameFieldLogic\CellsCombiner.cs" />

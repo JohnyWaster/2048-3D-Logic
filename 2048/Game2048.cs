@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using _2048.DifficultyLevels;
 using _2048.GameFieldLogic;
 using _2048.UserActions;
 
@@ -40,6 +41,10 @@ namespace _2048
         PossibleTextures _textures;
 
         CellsCombiner _cellsCombiner;
+
+        FirstScreen _firstScreen;
+
+        bool _isGameOver;
 
         public Game2048()
         {
@@ -82,6 +87,8 @@ namespace _2048
 
             _cellsCombiner = new CellsCombiner(_field, _cells, _score);
 
+            _firstScreen = new FirstScreen(GraphicsDevice, _conversion.CellSize, _field.UndoButton);
+
             base.Initialize();
         }
 
@@ -117,10 +124,34 @@ namespace _2048
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
+            //wait user input, nothing to update
             if (_moveFinisher == null)
             {
+                //difficuly level feature
+                if (_firstScreen.DifficultyLevel == null)
+                {
+                    _firstScreen.DifficultyLevel = _inputHandler.GetDifficultyLevel(_firstScreen);
+                    return;
+                }
+
+
+                //game over feature
+                if (_isGameOver)
+                {
+                    if (_inputHandler.TryAgain())
+                    {
+                        Initialize();
+                        Undo.CleanMemory();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+
                 _moveFinisher = _inputHandler.GetUserAction();
 
+                //undo button feature
                 Undo undo = _moveFinisher as Undo;
 
                 if (undo != null)
@@ -147,8 +178,12 @@ namespace _2048
                 }        
             }
 
+            //game process
             if (_moveFinisher != null)
-            {             
+            {           
+                //all this tricks with multiple times calls methods
+                //of _moveFinisher because of _cells is unordered list
+                //so we must be sure that update correctly all cells.
                 _moveFinisher.DeactivateFinishedCells();
                 _moveFinisher.DeactivateFinishedCells();
 
@@ -201,6 +236,13 @@ namespace _2048
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
+            if (_firstScreen.DifficultyLevel == null)
+            {
+                _firstScreen.Draw(spriteBatch);
+                spriteBatch.End();
+                return;
+            }
+
             _field.Draw(spriteBatch);
 
             foreach (var cell in _cells)
@@ -217,6 +259,13 @@ namespace _2048
 
         private void AddCell(GameTime gameTime)
         {
+            _isGameOver = _field.LackOfEmptyCells();
+            if (_isGameOver)
+            {
+                return;
+            }
+
+
             var rand = new Random((int)gameTime.ElapsedGameTime.Ticks);
             
             // 0.25 probability of 4 and 0.75 of 2
