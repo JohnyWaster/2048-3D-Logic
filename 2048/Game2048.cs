@@ -302,7 +302,7 @@ namespace _2048
 
             while (!_field.FieldCells[coords.X, coords.Y, coords.Z].IsEmpty)
             {
-                coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, zCoordinate));
+                coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), zCoordinate);
             }
             
             AddCellWithKnownCoordinates(coords, rand);
