@@ -84,11 +84,26 @@ namespace _2048.DifficultyLevels
                                         _buttonSize.Height);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             spriteBatch.Draw(_easyButtonTexture, new Vector2(EasyButton.X, EasyButton.Y));
 
             spriteBatch.Draw(_hardButtonTexture, new Vector2(HardButton.X, HardButton.Y));
+
+            int horizontalSpace = _buttonSize.Width/3;
+            int verticalSpace = _buttonSize.Height/3;
+
+            spriteBatch.DrawString(font,
+                "Easy",
+                new Vector2(EasyButton.X + horizontalSpace,
+                            EasyButton.Y + verticalSpace),
+                Color.Yellow);
+
+            spriteBatch.DrawString(font,
+                "Very Hard",
+                new Vector2(HardButton.X + horizontalSpace,
+                            HardButton.Y + verticalSpace),
+                Color.Yellow);
         }
     }
 }

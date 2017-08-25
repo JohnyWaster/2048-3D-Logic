@@ -81,13 +81,13 @@ namespace _2048
 
             _cells = new List<Cell>();
 
-            AddCell(new GameTime(TimeSpan.Zero, TimeSpan.Zero));
-
             _inputHandler = new InputHandler(_cells, _field);
 
             _cellsCombiner = new CellsCombiner(_field, _cells, _score);
 
             _firstScreen = new FirstScreen(GraphicsDevice, _conversion.CellSize, _field.UndoButton);
+
+            AddCell(new GameTime(TimeSpan.Zero, TimeSpan.Zero));
 
             base.Initialize();
         }
@@ -238,12 +238,12 @@ namespace _2048
 
             if (_firstScreen.DifficultyLevel == null)
             {
-                _firstScreen.Draw(spriteBatch);
+                _firstScreen.Draw(spriteBatch, _font);
                 spriteBatch.End();
                 return;
             }
 
-            _field.Draw(spriteBatch);
+            _field.Draw(spriteBatch, _font, _isGameOver);
 
             foreach (var cell in _cells)
             {
@@ -265,11 +265,13 @@ namespace _2048
                 return;
             }
 
-
             var rand = new Random((int)gameTime.ElapsedGameTime.Ticks);
-            
-            // 0.25 probability of 4 and 0.75 of 2
-            int value = rand.Next(0, 4) == 0 ? 4 : 2;
+
+            if (_firstScreen.DifficultyLevel == DifficultyLevel.VeryHard)
+            {
+                AddThreeCells(rand);
+                return;
+            }
 
             var coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, 3));
 
@@ -277,6 +279,39 @@ namespace _2048
             {
                 coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, 3));
             }
+
+            AddCellWithKnownCoordinates(coords, rand);
+        }
+
+        private void AddThreeCells(Random rand)
+        {
+            for (int z = 0; z < 3; z++)
+            {
+                AddCellInPartucularMatrix(z, rand);
+            }
+        }
+
+        private void AddCellInPartucularMatrix(int zCoordinate, Random rand)
+        {
+            if (_field.LackOfEmptyCellsInParticularMatrix(zCoordinate))
+            {
+                return;
+            }
+
+            var coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), zCoordinate);
+
+            while (!_field.FieldCells[coords.X, coords.Y, coords.Z].IsEmpty)
+            {
+                coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), rand.Next(0, zCoordinate));
+            }
+            
+            AddCellWithKnownCoordinates(coords, rand);
+        }
+
+        private void AddCellWithKnownCoordinates(GameCoordinates coords, Random rand)
+        {
+            // 0.25 probability of 4 and 0.75 of 2
+            int value = rand.Next(0, 4) == 0 ? 4 : 2;
 
             var cell = new Cell(_textures, value, coords, _conversion);
             _cells.Add(cell);

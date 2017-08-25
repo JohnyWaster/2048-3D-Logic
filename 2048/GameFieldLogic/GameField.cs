@@ -72,7 +72,7 @@ namespace _2048
         }
 
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font, bool isGameOver)
         {
             spriteBatch.Draw(_emptyMatrix, _positionOfCentralMatrix);
 
@@ -81,6 +81,22 @@ namespace _2048
             spriteBatch.Draw(_emptyMatrix, _positionOfRightMatrix);
 
             spriteBatch.Draw(_buttonTexture, new Vector2(UndoButton.X, UndoButton.Y));
+
+            int horizontalSpace = UndoButton.Width / 3;
+            int verticalSpace = UndoButton.Height / 3;
+
+            string text = "Undo";
+
+            if (isGameOver)
+            {
+                text = "Try again";
+            }
+
+            spriteBatch.DrawString(font,
+                text,
+                new Vector2(UndoButton.X + horizontalSpace,
+                            UndoButton.Y + verticalSpace),
+                Color.Firebrick );
         }
 
         void InitMatrixPositions(float width, float height)
@@ -170,6 +186,23 @@ namespace _2048
             }
             return true;
         }
+
+
+        public bool LackOfEmptyCellsInParticularMatrix(int zCoordinate)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    if (FieldCells[x, y, zCoordinate].IsEmpty)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
 
         void InitCellsRectangles()
         {
