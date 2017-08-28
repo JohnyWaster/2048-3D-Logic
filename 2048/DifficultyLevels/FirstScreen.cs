@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _2048.DifficultyLevels
 {
-    class FirstScreen
+    public class FirstScreen
     {
         public Rectangle EasyButton { get; private set; }
 
@@ -29,7 +29,7 @@ namespace _2048.DifficultyLevels
         public DifficultyLevel? DifficultyLevel;
 
         Rectangle _buttonSize;
-  
+ 
 
         public FirstScreen(GraphicsDevice graphicsDevice,
                             int cellSize,

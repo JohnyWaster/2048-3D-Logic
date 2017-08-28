@@ -32,6 +32,12 @@ namespace _2048
         SpriteFont _font;
 
         Score _score = new Score();
+
+        public Score myScore
+        {
+            get { return _score; }
+        }
+
         Vector2 _scoreLocation;
 
         IMoveFinisher _moveFinisher;
@@ -43,6 +49,11 @@ namespace _2048
         CellsCombiner _cellsCombiner;
 
         FirstScreen _firstScreen;
+
+        public FirstScreen FirstScreen
+        {
+            get { return _firstScreen; }
+        }
 
         bool _isGameOver;
 
@@ -131,8 +142,13 @@ namespace _2048
                 if (_firstScreen.DifficultyLevel == null)
                 {
                     _firstScreen.DifficultyLevel = _inputHandler.GetDifficultyLevel(_firstScreen);
+                    if (_firstScreen.DifficultyLevel != null)
+                    {
+                        _score.LoadBestScore(_firstScreen.DifficultyLevel);
+                    }
                     return;
                 }
+
 
 
                 //game over feature
@@ -250,7 +266,15 @@ namespace _2048
                 cell.Draw(spriteBatch);
             }
             
-            spriteBatch.DrawString(_font, "Score: " + _score.ScoreValue, new Vector2(_field.CentralMatrixRectangle.X, _conversion.CellSize), Color.Firebrick);
+            spriteBatch.DrawString(_font, "Score: " + _score.ScoreValue,
+                new Vector2(_field.LeftMatrixRectangle.X,
+                    _conversion.CellSize),
+                Color.Firebrick);
+
+            spriteBatch.DrawString(_font, "Best: " + _score.BestScore,
+                new Vector2(_field.RightMatrixRectangle.X,
+                    _conversion.CellSize),
+                Color.Firebrick);
 
             spriteBatch.End();
 

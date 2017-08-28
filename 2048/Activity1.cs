@@ -15,12 +15,21 @@ namespace _2048
         , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize)]
     public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
     {
+        Game2048 game;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            var g = new Game2048();
-            SetContentView((View)g.Services.GetService(typeof(View)));
-            g.Run();
+            game = new Game2048();
+            SetContentView((View)game.Services.GetService(typeof(View)));
+            game.Run();
+        }
+
+
+        protected override void OnPause()
+        {
+            game.myScore.SaveBestScore(game.FirstScreen.DifficultyLevel);
+            base.OnPause();
         }
     }
 }

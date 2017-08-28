@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace _2048.DifficultyLevels
 {
-    enum DifficultyLevel
+    public enum DifficultyLevel
     {
         Easy,
         VeryHard
