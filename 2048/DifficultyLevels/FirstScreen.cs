@@ -46,18 +46,8 @@ namespace _2048.DifficultyLevels
 
         void InitHardButton(GraphicsDevice graphicsDevice)
         {
-            int numberOfPixelsInButton = _buttonSize.Height * _buttonSize.Width;
-
-            _hardButtonTexture = new Texture2D(graphicsDevice, _buttonSize.Width, _buttonSize.Height);
-
-            Color[] colorData = new Color[numberOfPixelsInButton];
-            for (int i = 0; i < numberOfPixelsInButton; i++)
-            {
-                colorData[i] = Color.BurlyWood;
-            }
-
-            _hardButtonTexture.SetData<Color>(colorData);
-
+            _hardButtonTexture = PossibleTextures.ButtonTexture;
+           
             HardButton = new Rectangle(_buttonSize.X,
                                         _buttonSize.Y,
                                         _buttonSize.Width,
@@ -66,17 +56,7 @@ namespace _2048.DifficultyLevels
 
         void InitEasyButton(GraphicsDevice graphicsDevice)
         {
-            int numberOfPixelsInButton = _buttonSize.Height * _buttonSize.Width;
-
-            _easyButtonTexture = new Texture2D(graphicsDevice, _buttonSize.Width, _buttonSize.Height);
-
-            Color[] colorData = new Color[numberOfPixelsInButton];
-            for (int i = 0; i < numberOfPixelsInButton; i++)
-            {
-                colorData[i] = Color.BurlyWood;
-            }
-
-            _easyButtonTexture.SetData<Color>(colorData);
+            _easyButtonTexture = PossibleTextures.ButtonTexture;
 
             EasyButton = new Rectangle(_buttonSize.X,
                                         _cellSize,
@@ -86,9 +66,9 @@ namespace _2048.DifficultyLevels
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            spriteBatch.Draw(_easyButtonTexture, new Vector2(EasyButton.X, EasyButton.Y));
+            spriteBatch.Draw(_easyButtonTexture, EasyButton, Color.White);
 
-            spriteBatch.Draw(_hardButtonTexture, new Vector2(HardButton.X, HardButton.Y));
+            spriteBatch.Draw(_hardButtonTexture, HardButton, Color.White);
 
             int horizontalSpace = _buttonSize.Width/3;
             int verticalSpace = _buttonSize.Height/3;
