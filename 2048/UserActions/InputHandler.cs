@@ -79,8 +79,8 @@ namespace _2048.UserActions
                 // Usually you don't want to do something if the user drags 1 pixel.
                 if (delta.LengthSquared() < 30)
                 {
-                    if (_field.UndoButton.Contains(_currentLocation.Position) &&
-                        _field.UndoButton.Contains(_prevLocation.Position))
+                    if (GameField.UndoButton.Contains(_currentLocation.Position) &&
+                        GameField.UndoButton.Contains(_prevLocation.Position))
                     {
                         return _undo;
                     }
@@ -139,8 +139,8 @@ namespace _2048.UserActions
                 // Usually you don't want to do something if the user drags 1 pixel.
                 if (delta.LengthSquared() < 30)
                 {
-                    if (_field.UndoButton.Contains(_currentLocation.Position) &&
-                        _field.UndoButton.Contains(_prevLocation.Position))
+                    if (GameField.UndoButton.Contains(_currentLocation.Position) &&
+                        GameField.UndoButton.Contains(_prevLocation.Position))
                     {
                         return true;
                     }

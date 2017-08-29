@@ -14,11 +14,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _2048
 {
-    class PossibleTextures
+    public class PossibleTextures
     {
-        const int numberOfImages = 13;//2,4,8,16,32,64,128,256,512,1024,2048,4096,8192
+        const int numberOfImages = 26;//2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,...
 
         static Texture2D[] _textures;
+
+        public static Texture2D EmptyMatruxTexture { get; private set; }
 
         ContentManager _content;
 
@@ -27,6 +29,8 @@ namespace _2048
             _content = content;
 
             _textures = new Texture2D[numberOfImages];
+
+            EmptyMatruxTexture = _content.Load<Texture2D>("EmptyMatrix");
         }
 
         public Texture2D LoadTexture(int value)

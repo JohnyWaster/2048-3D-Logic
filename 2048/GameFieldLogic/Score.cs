@@ -24,7 +24,7 @@ namespace _2048.GameFieldLogic
             set
             {
                 _scoreValue = value;
-                if (ScoreValue > BestScore)
+                if (_scoreValue > BestScore)
                 {
                     BestScore = ScoreValue;
                 }
@@ -48,6 +48,7 @@ namespace _2048.GameFieldLogic
         public Score(Score copy)
         {
             ScoreValue = copy.ScoreValue;
+            BestScore = copy.BestScore;
         }
 
         public void LoadBestScore(DifficultyLevel? difficultyLevel)
@@ -56,9 +57,17 @@ namespace _2048.GameFieldLogic
 
             if (File.Exists(_filePath))
             {
-                string jsonString = File.ReadAllText(_filePath);
+                try
+                {
+                    string jsonString = File.ReadAllText(_filePath);
 
-                BestScore = JsonConvert.DeserializeObject<int>(jsonString);
+                    BestScore = JsonConvert.DeserializeObject<int>(jsonString);
+                }
+                catch (Exception)
+                {
+                }
+
+                
             }
         }
 
@@ -66,14 +75,29 @@ namespace _2048.GameFieldLogic
         {
             if (!Directory.Exists(_folderPath))
             {
-                Directory.CreateDirectory(_folderPath);
+                try
+                {
+                    Directory.CreateDirectory(_folderPath);
+                }
+                catch (Exception)
+                {
+                    
+                }            
             }
 
             _filePath = Path.Combine(_folderPath, difficultyLevel.ToString());
 
             string jsonString = JsonConvert.SerializeObject(BestScore);
 
-            File.WriteAllText(_filePath, jsonString);
+
+            try
+            {
+                File.WriteAllText(_filePath, jsonString);
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 }

@@ -96,7 +96,7 @@ namespace _2048
 
             _cellsCombiner = new CellsCombiner(_field, _cells, _score);
 
-            _firstScreen = new FirstScreen(GraphicsDevice, _conversion.CellSize, _field.UndoButton);
+            _firstScreen = new FirstScreen(GraphicsDevice, _conversion.CellSize, GameField.UndoButton);
 
             AddCell(new GameTime(TimeSpan.Zero, TimeSpan.Zero));
 
@@ -267,13 +267,13 @@ namespace _2048
             }
             
             spriteBatch.DrawString(_font, "Score: " + _score.ScoreValue,
-                new Vector2(_field.LeftMatrixRectangle.X,
-                    _conversion.CellSize),
+                new Vector2(GameField.LeftMatrixRectangle.X,
+                    _conversion.CellSize / 2),
                 Color.Firebrick);
 
             spriteBatch.DrawString(_font, "Best: " + _score.BestScore,
-                new Vector2(_field.RightMatrixRectangle.X,
-                    _conversion.CellSize),
+                new Vector2(GameField.LeftMatrixRectangle.X,
+                    3 * _conversion.CellSize / 2),
                 Color.Firebrick);
 
             spriteBatch.End();
