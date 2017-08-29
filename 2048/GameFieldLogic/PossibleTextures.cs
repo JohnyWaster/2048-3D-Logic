@@ -22,6 +22,8 @@ namespace _2048
 
         public static Texture2D EmptyMatruxTexture { get; private set; }
 
+        public static Texture2D ButtonTexture { get; private set; }
+
         ContentManager _content;
 
         public PossibleTextures(ContentManager content)
@@ -31,6 +33,8 @@ namespace _2048
             _textures = new Texture2D[numberOfImages];
 
             EmptyMatruxTexture = _content.Load<Texture2D>("EmptyMatrix");
+
+            ButtonTexture = _content.Load<Texture2D>("Button");
         }
 
         public Texture2D LoadTexture(int value)

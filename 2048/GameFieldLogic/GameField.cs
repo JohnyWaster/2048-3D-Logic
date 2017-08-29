@@ -74,7 +74,7 @@ namespace _2048
 
             spriteBatch.Draw(_emptyMatrix, RightMatrixRectangle, Color.White);
 
-            spriteBatch.Draw(_buttonTexture, new Vector2(UndoButton.X, UndoButton.Y));
+            spriteBatch.Draw(_buttonTexture, UndoButton, Color.White);
 
             int horizontalSpace = UndoButton.Width / 3;
             int verticalSpace = UndoButton.Height / 3;
@@ -128,17 +128,7 @@ namespace _2048
 
         void InitUndoButton(GraphicsDevice graphicsDevice)
         {
-            int numberOfPixelsInButton =  7 * 2 * _cellSize * _cellSize;
-
-            _buttonTexture = new Texture2D(graphicsDevice, 7*_cellSize, 2*_cellSize);
-
-            Color[] colorData = new Color[numberOfPixelsInButton];
-            for (int i = 0; i < numberOfPixelsInButton; i++)
-            {
-                colorData[i] = Color.BurlyWood;
-            }
-
-            _buttonTexture.SetData<Color>(colorData);
+            _buttonTexture = PossibleTextures.ButtonTexture;
 
             UndoButton = new Rectangle((int)_positionOfLeftMatrix.X + _cellSize, (int)_positionOfRightMatrix.Y + 4*_cellSize, 7*_cellSize, 2*_cellSize);
         }
