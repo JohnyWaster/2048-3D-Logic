@@ -96,7 +96,10 @@ namespace _2048
 
             _cellsCombiner = new CellsCombiner(_field, _cells, _score);
 
-            _firstScreen = new FirstScreen(GraphicsDevice, _conversion.CellSize, GameField.UndoButton);
+            _firstScreen = new FirstScreen(_conversion.CellSize,
+                GameField.UndoButton,
+                graphics.GraphicsDevice.Viewport.AspectRatio,
+                Content);
 
             AddCell(new GameTime(TimeSpan.Zero, TimeSpan.Zero));
 
@@ -141,7 +144,9 @@ namespace _2048
                 //difficuly level feature
                 if (_firstScreen.DifficultyLevel == null)
                 {
+                    _firstScreen.Update();
                     _firstScreen.DifficultyLevel = _inputHandler.GetDifficultyLevel(_firstScreen);
+
                     if (_firstScreen.DifficultyLevel != null)
                     {
                         _score.LoadBestScore(_firstScreen.DifficultyLevel);
@@ -156,6 +161,7 @@ namespace _2048
                 {
                     if (_inputHandler.TryAgain())
                     {
+                        _score.SaveBestScore(_firstScreen.DifficultyLevel);
                         Initialize();
                         Undo.CleanMemory();
                     }
@@ -256,6 +262,7 @@ namespace _2048
             {
                 _firstScreen.Draw(spriteBatch, _font);
                 spriteBatch.End();
+
                 return;
             }
 

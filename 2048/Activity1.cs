@@ -2,6 +2,8 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
+using LightInject;
+using _2048.Saving;
 
 namespace _2048
 {
@@ -17,9 +19,16 @@ namespace _2048
     {
         Game2048 game;
 
+        public static ServiceContainer IoCContainer { get; private set; }
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+
+            IoCContainer = new ServiceContainer();
+
+            IoCContainer.Register<IScoreSaver>(factory => new AndroidFileSystemSaver());
+
             game = new Game2048();
             SetContentView((View)game.Services.GetService(typeof(View)));
             game.Run();

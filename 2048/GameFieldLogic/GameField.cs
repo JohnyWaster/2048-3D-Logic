@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using _2048.UserActions;
 
 namespace _2048
 {
@@ -86,11 +87,13 @@ namespace _2048
                 text = "Try again";
             }
 
+            Color textColor = Undo.IsMemoryEmpty ? Color.AntiqueWhite : Color.Firebrick;
+
             spriteBatch.DrawString(font,
                 text,
                 new Vector2(UndoButton.X + horizontalSpace,
                             UndoButton.Y + verticalSpace),
-                Color.Firebrick );
+                textColor);
         }
 
         void InitMatrixPositions(float width, float height)

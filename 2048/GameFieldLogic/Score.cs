@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
 using _2048.DifficultyLevels;
+using _2048.Saving;
 
 namespace _2048.GameFieldLogic
 {
@@ -33,15 +34,12 @@ namespace _2048.GameFieldLogic
 
         public int BestScore { get; private set; }
 
-        string _folderPath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, "2048");
-
-        string _filePath;
-
+        private static IScoreSaver _scoreSaver;
 
 
         public Score()
         {
-            
+            _scoreSaver = Activity1.IoCContainer.GetInstance<IScoreSaver>();
         }
 
     
@@ -50,54 +48,16 @@ namespace _2048.GameFieldLogic
             ScoreValue = copy.ScoreValue;
             BestScore = copy.BestScore;
         }
-
+        
         public void LoadBestScore(DifficultyLevel? difficultyLevel)
         {
-            _filePath = Path.Combine(_folderPath, difficultyLevel.ToString());
-
-            if (File.Exists(_filePath))
-            {
-                try
-                {
-                    string jsonString = File.ReadAllText(_filePath);
-
-                    BestScore = JsonConvert.DeserializeObject<int>(jsonString);
-                }
-                catch (Exception)
-                {
-                }
-
-                
-            }
+            BestScore = _scoreSaver.LoadBestScore(difficultyLevel);          
         }
 
         public void SaveBestScore(DifficultyLevel? difficultyLevel)
         {
-            if (!Directory.Exists(_folderPath))
-            {
-                try
-                {
-                    Directory.CreateDirectory(_folderPath);
-                }
-                catch (Exception)
-                {
-                    
-                }            
-            }
-
-            _filePath = Path.Combine(_folderPath, difficultyLevel.ToString());
-
-            string jsonString = JsonConvert.SerializeObject(BestScore);
-
-
-            try
-            {
-                File.WriteAllText(_filePath, jsonString);
-            }
-            catch (Exception)
-            {
-
-            }
+            _scoreSaver.SaveBestScore(difficultyLevel, BestScore);
         }
+        
     }
 }

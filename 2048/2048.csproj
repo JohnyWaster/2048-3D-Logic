@@ -46,6 +46,10 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LightInject, Version=4.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LightInject.4.0.9\lib\portable-net45+netcore45+wpa81\LightInject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -74,6 +78,9 @@
     <Compile Include="Coordinates\GameCoordinates.cs" />
     <Compile Include="GameFieldLogic\Score.cs" />
     <Compile Include="GameFieldLogic\State.cs" />
+    <Compile Include="Saving\AndroidFileSystemScoreSaver.cs" />
+    <Compile Include="Saving\IGameStateSaver.cs" />
+    <Compile Include="Saving\IScoreSaver.cs" />
     <Compile Include="UserActions\BottomMoveFinisher.cs" />
     <Compile Include="UserActions\LeftMoveFinisher.cs" />
     <Compile Include="UserActions\LeftTopDiagonalFinisher.cs" />
