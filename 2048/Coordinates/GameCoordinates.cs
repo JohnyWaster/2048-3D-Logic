@@ -14,7 +14,7 @@ using Org.Apache.Http.Impl.Conn;
 
 namespace _2048
 {
-    struct GameCoordinates
+    public struct GameCoordinates
     {
         private int _x;
         public int X

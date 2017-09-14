@@ -24,20 +24,36 @@ namespace _2048
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
+            /*
             IoCContainer = new ServiceContainer();
 
             IoCContainer.Register<IScoreSaver>(factory => new AndroidFileSystemSaver());
+            IoCContainer.Register<IGameStateSaver>(factory => new AndroidFileSystemSaver());
 
             game = new Game2048();
             SetContentView((View)game.Services.GetService(typeof(View)));
             game.Run();
+            */
         }
 
+        protected override void OnResume()
+        {
+            
+            IoCContainer = new ServiceContainer();
+
+            IoCContainer.Register<IScoreSaver>(factory => new AndroidFileSystemSaver());
+            IoCContainer.Register<IGameStateSaver>(factory => new AndroidFileSystemSaver());
+
+            game = new Game2048();
+            SetContentView((View)game.Services.GetService(typeof(View)));
+            game.Run();
+            base.OnResume();
+        }
 
         protected override void OnPause()
         {
             game.myScore.SaveBestScore(game.FirstScreen.DifficultyLevel);
+            game.GetGameState().SaveGameState();
             base.OnPause();
         }
     }

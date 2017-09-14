@@ -9,10 +9,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using _2048.GameFieldLogic;
 
 namespace _2048.Saving
 {
     interface IGameStateSaver
     {
+        State LoadGameState();
+
+        void SaveGameState(State state);
     }
 }

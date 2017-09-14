@@ -16,7 +16,7 @@ using _2048.UserActions;
 
 namespace _2048
 {
-    class GameField
+    public class GameField
     {
         static Texture2D _emptyMatrix;
         static Vector2 _positionOfCentralMatrix;

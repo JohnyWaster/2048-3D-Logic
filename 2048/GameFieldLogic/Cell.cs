@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _2048
 {
-    class Cell
+    public class Cell
     {
         static PossibleTextures _cellTextures;
 

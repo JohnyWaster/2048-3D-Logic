@@ -347,5 +347,10 @@ namespace _2048
             var cell = new Cell(_textures, value, coords, _conversion);
             _cells.Add(cell);
         }
+
+        public State GetGameState()
+        {
+            return new State(_field, _cells, _score, FirstScreen.DifficultyLevel);
+        }
     }
 }

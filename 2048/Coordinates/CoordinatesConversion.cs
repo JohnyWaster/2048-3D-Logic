@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace _2048
 {
-    class CoordinatesConversion
+    public class CoordinatesConversion
     {
         public int Width { get; set; }
         public int Height { get; set; }
