@@ -12,6 +12,7 @@ using Android.Widget;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 
 namespace _2048
 {
@@ -75,6 +76,7 @@ namespace _2048
             VELOCITY = (decimal)_cellSize/ DIVIDER;
         }
         
+        [JsonConstructor]
         public Cell(int value, GameCoordinates coords)
         {
             Value = value;

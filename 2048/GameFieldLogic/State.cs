@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
 using _2048.DifficultyLevels;
 using _2048.Saving;
 
@@ -21,7 +22,7 @@ namespace _2048.GameFieldLogic
         public Score Score;
         public DifficultyLevel? DifficultyLevel;
 
-        private IGameStateSaver _gameStateSaver = Activity1.IoCContainer.GetInstance<IGameStateSaver>();
+        private static IGameStateSaver _gameStateSaver = Activity1.IoCContainer.GetInstance<IGameStateSaver>();
 
 
         public State(GameField field, List<Cell> cells, Score score)
@@ -36,6 +37,7 @@ namespace _2048.GameFieldLogic
             Score = new Score(score);
         }
 
+        [JsonConstructor]
         public State(GameField field, List<Cell> cells, Score score, DifficultyLevel? difficultyLevel)
         {
             Field = new GameField(field);
@@ -55,9 +57,14 @@ namespace _2048.GameFieldLogic
             _gameStateSaver.SaveGameState(this);
         }
 
-        public State LoadGameState()
+        public static State LoadGameState()
         {
             return _gameStateSaver.LoadGameState();
+        }
+
+        public static void DeleteSavedGame()
+        {
+            _gameStateSaver.DeleteSavedGame();
         }
     }
 }

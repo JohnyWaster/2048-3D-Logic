@@ -36,6 +36,12 @@ namespace _2048.GameFieldLogic
 
         private static IScoreSaver _scoreSaver;
 
+        [JsonConstructor]
+        public Score(int scoreValue, int bestScore)
+        {
+            ScoreValue = scoreValue;
+            BestScore = bestScore;
+        }
 
         public Score()
         {

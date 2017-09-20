@@ -23,10 +23,10 @@ namespace _2048
         static Vector2 _positionOfLeftMatrix;
         static Vector2 _positionOfRightMatrix;
 
-        int _cellSize;
-        int _width;
-        int _height;
-        GraphicsDevice _graphicsDevice;
+        static int _cellSize;
+        static int _width;
+        static int _height;
+        static GraphicsDevice _graphicsDevice;
 
         public FieldCell[,,] FieldCells { get; set; }
 
@@ -40,13 +40,14 @@ namespace _2048
 
         static Texture2D _buttonTexture;
 
+        public static Rectangle RestartButton { get; private set; }
+
+        public GameField()
+        {
+            
+        }
         public GameField(GameField copy)
         {
-            _cellSize = copy._cellSize;
-            _width = copy._width;
-            _height = copy._height;
-            _graphicsDevice = copy._graphicsDevice;
-
             FieldCells = copy.FieldCells;
         }
 
@@ -63,7 +64,7 @@ namespace _2048
 
             InitCellsRectangles();
 
-            InitUndoButton(graphicsDevice);
+            InitButtons(graphicsDevice);
         }
 
 
@@ -75,10 +76,21 @@ namespace _2048
 
             spriteBatch.Draw(_emptyMatrix, RightMatrixRectangle, Color.White);
 
+            spriteBatch.Draw(_buttonTexture, RestartButton, Color.White);
+
+            int horizontalSpace = RestartButton.Width / 7;
+            int verticalSpace = RestartButton.Height / 7;
+
+            spriteBatch.DrawString(font,
+                "Restart",
+                new Vector2(RestartButton.X + horizontalSpace,
+                            RestartButton.Y + verticalSpace),
+                Color.Firebrick);
+
             spriteBatch.Draw(_buttonTexture, UndoButton, Color.White);
 
-            int horizontalSpace = UndoButton.Width / 3;
-            int verticalSpace = UndoButton.Height / 3;
+            horizontalSpace = UndoButton.Width / 3;
+            verticalSpace = UndoButton.Height / 3;
 
             string text = "Undo";
 
@@ -129,11 +141,13 @@ namespace _2048
             _emptyMatrix = PossibleTextures.EmptyMatruxTexture;
         }
 
-        void InitUndoButton(GraphicsDevice graphicsDevice)
+        void InitButtons(GraphicsDevice graphicsDevice)
         {
             _buttonTexture = PossibleTextures.ButtonTexture;
 
             UndoButton = new Rectangle((int)_positionOfLeftMatrix.X + _cellSize, (int)_positionOfRightMatrix.Y + 4*_cellSize, 7*_cellSize, 2*_cellSize);
+
+            RestartButton = new Rectangle((int)_positionOfRightMatrix.X, (int)_positionOfLeftMatrix.Y - 3 * _cellSize, 3 * _cellSize, 1 * _cellSize);
         }
 
         public void ResetEmptyCells()

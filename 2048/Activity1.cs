@@ -4,12 +4,13 @@ using Android.OS;
 using Android.Views;
 using LightInject;
 using _2048.Saving;
+using _2048.UserActions;
 
 namespace _2048
 {
-    [Activity(Label = "2048"
+    [Activity(Label = "2048 3D Logic"
         , MainLauncher = true
-        , Icon = "@drawable/icon"
+        , Icon = "@drawable/cutedIconCube"
         , Theme = "@style/Theme.Splash"
         , AlwaysRetainTaskState = true
         , LaunchMode = Android.Content.PM.LaunchMode.SingleInstance
@@ -24,21 +25,10 @@ namespace _2048
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            /*
-            IoCContainer = new ServiceContainer();
-
-            IoCContainer.Register<IScoreSaver>(factory => new AndroidFileSystemSaver());
-            IoCContainer.Register<IGameStateSaver>(factory => new AndroidFileSystemSaver());
-
-            game = new Game2048();
-            SetContentView((View)game.Services.GetService(typeof(View)));
-            game.Run();
-            */
         }
 
         protected override void OnResume()
-        {
-            
+        {         
             IoCContainer = new ServiceContainer();
 
             IoCContainer.Register<IScoreSaver>(factory => new AndroidFileSystemSaver());
@@ -53,7 +43,7 @@ namespace _2048
         protected override void OnPause()
         {
             game.myScore.SaveBestScore(game.FirstScreen.DifficultyLevel);
-            game.GetGameState().SaveGameState();
+            game.GetGameState().SaveGameState();       
             base.OnPause();
         }
     }

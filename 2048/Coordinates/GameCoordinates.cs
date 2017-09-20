@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using Org.Apache.Http.Impl.Conn;
 
 namespace _2048
@@ -67,6 +68,7 @@ namespace _2048
             }
         }
 
+        [JsonConstructor]
         public GameCoordinates(int x, int y, int z)
         {
             _x = x;

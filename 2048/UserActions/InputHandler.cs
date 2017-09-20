@@ -41,6 +41,7 @@ namespace _2048.UserActions
 
         GameField _field; 
 
+        static event Action _restart; 
 
         public InputHandler(List<Cell> cells, GameField field)
         {
@@ -83,6 +84,11 @@ namespace _2048.UserActions
                         GameField.UndoButton.Contains(_prevLocation.Position))
                     {
                         return _undo;
+                    }
+                    if (GameField.RestartButton.Contains(_currentLocation.Position) &&
+                        GameField.RestartButton.Contains(_prevLocation.Position))
+                    {
+                        _restart.Invoke();
                     }
                     return null;
                 }
@@ -256,6 +262,11 @@ namespace _2048.UserActions
                 return true;
             }
             return false;
+        }
+
+        public static void AddRestartSubscriber(Action subscriber)
+        {
+            _restart += subscriber;
         }
     }
 }

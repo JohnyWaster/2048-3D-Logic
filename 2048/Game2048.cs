@@ -38,8 +38,6 @@ namespace _2048
             get { return _score; }
         }
 
-        Vector2 _scoreLocation;
-
         IMoveFinisher _moveFinisher;
 
         InputHandler _inputHandler;
@@ -65,6 +63,7 @@ namespace _2048
             this.IsFixedTimeStep = false;
             this.graphics.SynchronizeWithVerticalRetrace = false;
 
+            InputHandler.AddRestartSubscriber(RestartGame);
 
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferWidth = 800;
@@ -87,14 +86,10 @@ namespace _2048
             _textures = new PossibleTextures(Content);
 
             _conversion = new CoordinatesConversion(_widthScreen, _heightScreen);
-            
+
             _field = new GameField(GraphicsDevice, _widthScreen, _heightScreen, _conversion.CellSize);
 
             _cells = new List<Cell>();
-
-            _inputHandler = new InputHandler(_cells, _field);
-
-            _cellsCombiner = new CellsCombiner(_field, _cells, _score);
 
             _firstScreen = new FirstScreen(_conversion.CellSize,
                 GameField.UndoButton,
@@ -102,6 +97,19 @@ namespace _2048
                 Content);
 
             AddCell(new GameTime(TimeSpan.Zero, TimeSpan.Zero));
+
+        
+            var savedState = State.LoadGameState();
+
+            if (savedState != null)
+            {
+                RestoreSavedState(savedState);
+            }
+         
+
+            _inputHandler = new InputHandler(_cells, _field);
+
+            _cellsCombiner = new CellsCombiner(_field, _cells, _score);
 
             base.Initialize();
         }
@@ -161,9 +169,7 @@ namespace _2048
                 {
                     if (_inputHandler.TryAgain())
                     {
-                        _score.SaveBestScore(_firstScreen.DifficultyLevel);
-                        Initialize();
-                        Undo.CleanMemory();
+                        RestartGame();
                     }
                     else
                     {
@@ -178,7 +184,7 @@ namespace _2048
 
                 if (undo != null)
                 {
-                    undo.RestoreState(ref _field,ref _cells,ref _score);
+                    undo.RestoreState(ref _field, ref _cells, ref _score);
 
                     _moveFinisher = null;
 
@@ -197,12 +203,12 @@ namespace _2048
                     {
                         cell.Active = true;
                     }
-                }        
+                }
             }
 
             //game process
             if (_moveFinisher != null)
-            {           
+            {
                 //all this tricks with multiple times calls methods
                 //of _moveFinisher because of _cells is unordered list
                 //so we must be sure that update correctly all cells.
@@ -216,7 +222,7 @@ namespace _2048
                 _moveFinisher.ActivateFalselyFinishedCells();
                 _moveFinisher.DeactivateFinishedCells();
 
-                
+
                 int unFinishedCellsCounter = 0;
 
                 foreach (var cell in _cells)
@@ -233,13 +239,13 @@ namespace _2048
                         }
 
                         unFinishedCellsCounter++;
-                    }              
+                    }
                 }
 
                 if (unFinishedCellsCounter == 0)
                 {
                     _moveFinisher = null;
-                    AddCell(gameTime);                    
+                    AddCell(gameTime);
                     _field.ResetEmptyCells();
                 }
             }
@@ -272,7 +278,7 @@ namespace _2048
             {
                 cell.Draw(spriteBatch);
             }
-            
+
             spriteBatch.DrawString(_font, "Score: " + _score.ScoreValue,
                 new Vector2(GameField.LeftMatrixRectangle.X,
                     _conversion.CellSize / 2),
@@ -335,7 +341,7 @@ namespace _2048
             {
                 coords = new GameCoordinates(rand.Next(0, 3), rand.Next(0, 3), zCoordinate);
             }
-            
+
             AddCellWithKnownCoordinates(coords, rand);
         }
 
@@ -350,7 +356,25 @@ namespace _2048
 
         public State GetGameState()
         {
+            Undo.CleanMemory();
             return new State(_field, _cells, _score, FirstScreen.DifficultyLevel);
+        }
+
+        private void RestoreSavedState(State savedState)
+        {
+            _field = savedState.Field;
+            _cells = savedState.Cells;
+            _score = savedState.Score;
+            _firstScreen.DifficultyLevel = savedState.DifficultyLevel;           
+        }
+
+        private void RestartGame()
+        {
+            State.DeleteSavedGame();
+            _score.SaveBestScore(_firstScreen.DifficultyLevel);
+            _score.ScoreValue = 0;
+            Initialize();
+            Undo.CleanMemory();           
         }
     }
 }

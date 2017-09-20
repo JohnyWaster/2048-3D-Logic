@@ -39,6 +39,7 @@ namespace _2048.Saving
                 }
                 catch (Exception)
                 {
+                    return 0;
                 }
             }
 
@@ -83,11 +84,13 @@ namespace _2048.Saving
                 try
                 {
                     string jsonString = File.ReadAllText(_filePath);
-
                     return JsonConvert.DeserializeObject<State>(jsonString);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                   // "Unable to find a constructor to use for type _2048.GameFieldLogic.State. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'Field', line 1, position 9."
+                    var mes = e.Message;
+                    return null;
                 }
             }
 
@@ -120,6 +123,22 @@ namespace _2048.Saving
             catch (Exception)
             {
 
+            }
+        }
+
+        public void DeleteSavedGame()
+        {
+            _filePath = FilePathForLastGame();
+
+            if (File.Exists(_filePath))
+            {
+                try
+                {
+                    File.Delete(_filePath);
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 

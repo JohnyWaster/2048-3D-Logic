@@ -18,5 +18,7 @@ namespace _2048.Saving
         State LoadGameState();
 
         void SaveGameState(State state);
+
+        void DeleteSavedGame();
     }
 }
