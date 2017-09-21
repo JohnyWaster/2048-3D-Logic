@@ -48,6 +48,8 @@ namespace _2048
 
         FirstScreen _firstScreen;
 
+        Undo _undo;
+
         public FirstScreen FirstScreen
         {
             get { return _firstScreen; }
@@ -63,7 +65,8 @@ namespace _2048
             this.IsFixedTimeStep = false;
             this.graphics.SynchronizeWithVerticalRetrace = false;
 
-            InputHandler.AddRestartSubscriber(RestartGame);
+            InputHandler.AddRestartHandler(RestartGame);
+            InputHandler.AddUndoHandler(UndoButtonPressed);
 
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferWidth = 800;
@@ -90,6 +93,8 @@ namespace _2048
             _field = new GameField(GraphicsDevice, _widthScreen, _heightScreen, _conversion.CellSize);
 
             _cells = new List<Cell>();
+
+            _undo = new Undo();
 
             _firstScreen = new FirstScreen(_conversion.CellSize,
                 GameField.UndoButton,
@@ -133,8 +138,9 @@ namespace _2048
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
+
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -178,22 +184,6 @@ namespace _2048
                 }
 
                 _moveFinisher = _inputHandler.GetUserAction();
-
-                //undo button feature
-                Undo undo = _moveFinisher as Undo;
-
-                if (undo != null)
-                {
-                    undo.RestoreState(ref _field, ref _cells, ref _score);
-
-                    _moveFinisher = null;
-
-                    _inputHandler = new InputHandler(_cells, _field);
-
-                    _cellsCombiner = new CellsCombiner(_field, _cells, _score);
-
-                    return;
-                }
 
                 if (_moveFinisher != null)
                 {
@@ -252,6 +242,8 @@ namespace _2048
 
             base.Update(gameTime);
         }
+
+
 
 
         /// <summary>
@@ -375,6 +367,17 @@ namespace _2048
             _score.ScoreValue = 0;
             Initialize();
             Undo.CleanMemory();           
+        }
+
+        private void UndoButtonPressed()
+        {
+            _undo.RestoreState(ref _field, ref _cells, ref _score);
+
+            _moveFinisher = null;
+
+            _inputHandler = new InputHandler(_cells, _field);
+
+            _cellsCombiner = new CellsCombiner(_field, _cells, _score);
         }
     }
 }

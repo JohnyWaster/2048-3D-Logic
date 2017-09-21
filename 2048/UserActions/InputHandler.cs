@@ -35,20 +35,20 @@ namespace _2048.UserActions
 
         RightBottomDiagonalFinisher _rightBottomDiagonal;
 
-        Undo _undo;
-
         List<Cell> _cells;
 
         GameField _field; 
 
-        static event Action _restart; 
+        static event Action _restart;
+
+        static event Action _undo; 
 
         public InputHandler(List<Cell> cells, GameField field)
         {
             _field = field;
             _cells = cells;
 
-            _undo = new Undo();
+
             _bottomMoveFinisher = new BottomMoveFinisher(_cells, _field);
             _leftMoveFinisher = new LeftMoveFinisher(_cells, _field);
             _rightMoveFinisher = new RightMoveFinisher(_cells, _field);
@@ -83,7 +83,7 @@ namespace _2048.UserActions
                     if (GameField.UndoButton.Contains(_currentLocation.Position) &&
                         GameField.UndoButton.Contains(_prevLocation.Position))
                     {
-                        return _undo;
+                        _undo.Invoke();
                     }
                     if (GameField.RestartButton.Contains(_currentLocation.Position) &&
                         GameField.RestartButton.Contains(_prevLocation.Position))
@@ -264,9 +264,15 @@ namespace _2048.UserActions
             return false;
         }
 
-        public static void AddRestartSubscriber(Action subscriber)
+        public static void AddRestartHandler(Action handler)
         {
-            _restart += subscriber;
+            _restart += handler;
+        }
+
+
+        public static void AddUndoHandler(Action handler)
+        {
+            _undo += handler;
         }
     }
 }

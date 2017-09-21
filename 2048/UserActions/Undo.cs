@@ -14,23 +14,11 @@ using _2048.GameFieldLogic;
 
 namespace _2048.UserActions
 {
-    class Undo : IMoveFinisher
+    class Undo
     {
-        public Vector2 Direction { get { return Vector2.Zero; } }
-        public void DeactivateFinishedCells()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ActivateFalselyFinishedCells()
-        {
-            throw new NotImplementedException();
-        }
-
         private static int _memoryLength = 10;
 
         private static List<State> _memory;
-
 
         static Undo()
         {
