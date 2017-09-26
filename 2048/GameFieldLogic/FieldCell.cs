@@ -13,6 +13,9 @@ using Microsoft.Xna.Framework;
 
 namespace _2048
 {
+    /// <summary>
+    /// each cell of the game field has FieldCell type
+    /// </summary>
     public class FieldCell
     {
         public Rectangle CellRectangle { get; set; }

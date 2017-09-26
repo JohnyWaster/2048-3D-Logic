@@ -16,6 +16,11 @@ using Newtonsoft.Json;
 
 namespace _2048
 {
+    /// <summary>
+    /// represents cell with some value, which can be moved
+    /// by user.
+    /// it includes all logic of updating and drawing .
+    /// </summary>
     public class Cell
     {
         static PossibleTextures _cellTextures;

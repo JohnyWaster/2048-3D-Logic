@@ -13,6 +13,10 @@ using Microsoft.Xna.Framework;
 
 namespace _2048.GameFieldLogic
 {
+    /// <summary>
+    /// it includes all logic about reducing two cells 
+    /// with equal values to one with double value.
+    /// </summary>
     class CellsCombiner
     {
         GameField _field;

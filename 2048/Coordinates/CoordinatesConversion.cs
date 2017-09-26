@@ -12,6 +12,11 @@ using Android.Widget;
 
 namespace _2048
 {
+    /// <summary>
+    /// class for conversion game coordinates(x,y,z), each
+    /// between 0 and 2 to pixel coordinates (x,y), each 
+    /// is less than width and height accordingly
+    /// </summary>
     public class CoordinatesConversion
     {
         public int Width { get; set; }

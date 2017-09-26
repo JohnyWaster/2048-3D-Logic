@@ -14,6 +14,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _2048
 {
+    /// <summary>
+    /// it contains logic of loading textures
+    /// </summary>
     public class PossibleTextures
     {
         const int numberOfImages = 26;//2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,...

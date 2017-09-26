@@ -15,6 +15,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace _2048.DifficultyLevels
 {
+    /// <summary>
+    /// first screen of the game, which provides 3d model 
+    /// animation and choose of difficulty level,
+    /// it will be displayed untill difficulty level not chosen
+    /// </summary>
     public class FirstScreen
     {
         public Rectangle EasyButton { get; private set; }

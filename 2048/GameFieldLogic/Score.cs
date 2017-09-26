@@ -16,6 +16,10 @@ using _2048.Saving;
 
 namespace _2048.GameFieldLogic
 {
+    /// <summary>
+    /// contains logic of keeping score,
+    /// calculating, saving and loading best score
+    /// </summary>
     public class Score
     {
         int _scoreValue;

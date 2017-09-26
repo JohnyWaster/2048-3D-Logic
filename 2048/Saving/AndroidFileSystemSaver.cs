@@ -16,6 +16,10 @@ using _2048.GameFieldLogic;
 
 namespace _2048.Saving
 {
+    /// <summary>
+    /// class for saving game score and game state in android 
+    /// file system
+    /// </summary>
     class AndroidFileSystemSaver : IScoreSaver, IGameStateSaver
     {
         readonly string _folderPath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, "2048");

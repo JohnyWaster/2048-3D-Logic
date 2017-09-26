@@ -15,6 +15,10 @@ using _2048.Saving;
 
 namespace _2048.GameFieldLogic
 {
+    /// <summary>
+    /// represents state of the current game situation,
+    /// used fot saving and loading game
+    /// </summary>
     public class State
     {
         public GameField Field;

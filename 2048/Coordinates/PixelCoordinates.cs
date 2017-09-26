@@ -12,6 +12,9 @@ using Android.Widget;
 
 namespace _2048
 {
+    /// <summary>
+    /// represents pixel coordinates
+    /// </summary>
     public struct PixelCoordinates
     {
         private decimal _x;

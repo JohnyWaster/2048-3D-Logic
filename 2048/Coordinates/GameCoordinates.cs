@@ -15,6 +15,9 @@ using Org.Apache.Http.Impl.Conn;
 
 namespace _2048
 {
+    /// <summary>
+    /// represents game coordinates
+    /// </summary>
     public struct GameCoordinates
     {
         private int _x;

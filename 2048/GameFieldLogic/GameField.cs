@@ -16,6 +16,11 @@ using _2048.UserActions;
 
 namespace _2048
 {
+    /// <summary>
+    /// this class includes all logic about game field,
+    /// where empty cells are situated.
+    /// it contains draw logic of game field and buttons too. 
+    /// </summary>
     public class GameField
     {
         static Texture2D _emptyMatrix;

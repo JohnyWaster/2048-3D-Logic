@@ -14,6 +14,9 @@ using _2048.GameFieldLogic;
 
 namespace _2048.UserActions
 {
+    /// <summary>
+    /// represents undo button feature
+    /// </summary>
     class Undo
     {
         private static int _memoryLength = 10;
