@@ -169,13 +169,6 @@
 /processorParam:TextureFormat=Color
 /build:8192.png
 
-#begin Arial24.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Arial24.spritefont
-
 #begin 16384.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -356,7 +349,12 @@
 /processorParam:TextureFormat=Color
 /build:Button.png
 
-#begin coloredCube.fbx
+#begin Content.mgcb
+/importer:
+/processor:
+/build:Content.mgcb
+
+#begin coloredCubev2.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -373,9 +371,9 @@
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=NoChange
-/build:coloredCube.fbx
+/build:coloredCubev2.fbx
 
-#begin cubeTexture.png
+#begin cubeTexturev2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -385,5 +383,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:cubeTexture.png
+/build:cubeTexturev2.png
+
+#begin Arial24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial24.spritefont
+
+#begin Arial48.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial48.spritefont
 

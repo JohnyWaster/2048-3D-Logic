@@ -89,7 +89,7 @@ namespace _2048
 
             spriteBatch.Draw(_buttonTexture, UndoButton, Color.White);
 
-            horizontalSpace = UndoButton.Width / 3;
+            horizontalSpace = UndoButton.Width * 10 / 27;
             verticalSpace = UndoButton.Height / 3;
 
             string text = "Undo";

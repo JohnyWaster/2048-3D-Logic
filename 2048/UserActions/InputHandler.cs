@@ -15,6 +15,9 @@ using _2048.DifficultyLevels;
 
 namespace _2048.UserActions
 {
+    /// <summary>
+    /// in this class all logic of user input is implemented.
+    /// </summary>
     class InputHandler
     {
         TouchLocation _prevLocation;
@@ -57,6 +60,10 @@ namespace _2048.UserActions
             _rightBottomDiagonal = new RightBottomDiagonalFinisher(_cells, _field);
         }
 
+        /// <summary>
+        /// Method for handling user gesture during gameplay
+        /// </summary>
+        /// <returns></returns>
         public IMoveFinisher GetUserAction()
         {
             // we use raw touch points for selection, since they are more appropriate
@@ -122,6 +129,10 @@ namespace _2048.UserActions
             return null;
         }
 
+        /// <summary>
+        /// Method which determines if user pushed try again button
+        /// </summary>
+        /// <returns></returns>
         public bool TryAgain()
         {
             // we use raw touch points for selection, since they are more appropriate

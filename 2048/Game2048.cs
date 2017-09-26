@@ -129,7 +129,7 @@ namespace _2048
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _font = Content.Load<SpriteFont>("Arial24");
+            _font = Content.Load<SpriteFont>("Arial48");           
         }
 
         /// <summary>

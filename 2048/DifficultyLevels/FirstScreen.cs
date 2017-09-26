@@ -89,7 +89,7 @@ namespace _2048.DifficultyLevels
                 20);
 
             
-            model = content.Load<Model>("ColoredCube");
+            model = content.Load<Model>("coloredCubev2");
         }
 
         void InitHardButton()
