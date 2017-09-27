@@ -390,13 +390,17 @@ namespace _2048
 
             SpriteFont font = Content.Load<SpriteFont>(prefix + (postfix).ToString());
 
+            int correctSize = postfix;
+
             //fonts between 24 and 72 with step 4 are loaded in project
             while (font.MeasureString("Inner Side").X < cellSize*3 && postfix <= 68)
             {
+                correctSize = postfix;
                 postfix += 4;
                 font = Content.Load<SpriteFont>(prefix + (postfix).ToString());
             }
-            return font;
+            
+            return Content.Load<SpriteFont>(prefix + (correctSize).ToString());
         }
     }
 }

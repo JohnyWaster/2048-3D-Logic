@@ -10,7 +10,7 @@ namespace _2048
 {
     [Activity(Label = "2048 3D Logic"
         , MainLauncher = true
-        , Icon = "@drawable/cutedIconCube"
+        , Icon = "@drawable/IconCube"
         , Theme = "@style/Theme.Splash"
         , AlwaysRetainTaskState = true
         , LaunchMode = Android.Content.PM.LaunchMode.SingleInstance
