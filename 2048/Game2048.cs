@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using Android.App;
 using Android.Views;
 using Microsoft.Xna.Framework;
@@ -90,6 +91,8 @@ namespace _2048
 
             _conversion = new CoordinatesConversion(_widthScreen, _heightScreen);
 
+            _font = GetFont(_conversion.CellSize);
+
             _field = new GameField(GraphicsDevice, _widthScreen, _heightScreen, _conversion.CellSize);
 
             _cells = new List<Cell>();
@@ -129,7 +132,6 @@ namespace _2048
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _font = Content.Load<SpriteFont>("Arial48");           
         }
 
         /// <summary>
@@ -378,6 +380,23 @@ namespace _2048
             _inputHandler = new InputHandler(_cells, _field);
 
             _cellsCombiner = new CellsCombiner(_field, _cells, _score);
+        }
+
+        private SpriteFont GetFont(int cellSize)
+        {
+            string prefix = "Arial";
+
+            int postfix = 24;
+
+            SpriteFont font = Content.Load<SpriteFont>(prefix + (postfix).ToString());
+
+            //fonts between 24 and 72 with step 4 are loaded in project
+            while (font.MeasureString("Inner Side").X < cellSize*3 && postfix <= 68)
+            {
+                postfix += 4;
+                font = Content.Load<SpriteFont>(prefix + (postfix).ToString());
+            }
+            return font;
         }
     }
 }
